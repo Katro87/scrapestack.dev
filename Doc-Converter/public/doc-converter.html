@@ -1,0 +1,484 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <meta name="description" content="Upload your file, choose the output format, convert, and download from a dedicated download page.">
+    <title>ScrapeStack | Smart Doc Converter</title>
+    <link rel="icon" type="image/x-icon" href="../../image-compressor/images/favicon.png">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="../../styles/navbar.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        /* Loading overlay */
+.loading-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0,0,0,0.7);
+    backdrop-filter: blur(5px);
+    z-index: 9999;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.loading-spinner {
+    width: 80px;
+    height: 80px;
+    border: 8px solid #f3f3f3;
+    border-top: 8px solid #667eea;
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+}
+
+.loading-text {
+    color: white;
+    font-size: 1.2rem;
+    font-weight: 600;
+}
+
+.loading-subtext {
+    color: #ccc;
+    font-size: 0.9rem;
+}
+
+.loading-progress {
+    width: 300px;
+    height: 8px;
+    background: #333;
+    border-radius: 4px;
+    overflow: hidden;
+    margin-top: 10px;
+}
+
+.loading-progress-bar {
+    height: 100%;
+    background: linear-gradient(90deg, #667eea, #764ba2);
+    width: 0%;
+    transition: width 0.3s;
+    animation: progress 2s ease-in-out infinite;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+@keyframes progress {
+    0% { width: 0%; }
+    50% { width: 70%; }
+    100% { width: 100%; }
+}
+
+.loading-steps {
+    display: flex;
+    gap: 30px;
+    margin-top: 20px;
+    color: #ccc;
+    font-size: 0.85rem;
+}
+
+.loading-steps .active {
+    color: #667eea;
+    font-weight: bold;
+}
+
+.loading-steps .completed {
+    color: #4caf50;
+}
+        body {
+            font-family: system-ui, -apple-system, Segoe UI, Roboto, Helvetica Neue, sans-serif;
+            background: linear-gradient(160deg, #f8fbff 0%, #eef2ff 55%, #f6f8fc 100%);
+            color: #0f172a;
+            min-height: 100vh;
+            display: block;
+            padding: 0;
+        }
+
+        .page-wrap {
+            max-width: 1240px;
+            margin: 24px auto 0;
+            padding: 0 18px 40px;
+            display: grid;
+            grid-template-columns: minmax(0, 1.7fr) minmax(260px, 1fr);
+            gap: 22px;
+        }
+
+        .converter-container {
+            background: #ffffff;
+            border: 1px solid #e2e8f0;
+            border-radius: 22px;
+            box-shadow: 0 24px 45px -35px rgba(15, 23, 42, 0.5);
+            padding: 30px;
+        }
+
+        .converter-title {
+            font-size: clamp(1.7rem, 2.8vw, 2.3rem);
+            margin-bottom: 8px;
+            font-weight: 800;
+            letter-spacing: -0.01em;
+        }
+
+        .converter-subtitle {
+            color: #475569;
+            margin-bottom: 24px;
+            font-size: 0.98rem;
+        }
+
+        .step-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: #e2e8f0;
+            color: #334155;
+            font-size: 0.82rem;
+            font-weight: 700;
+            border-radius: 999px;
+            padding: 6px 12px;
+            margin-bottom: 14px;
+        }
+
+        .upload-box {
+            border: 2px dashed #cbd5e1;
+            border-radius: 18px;
+            background: #f8fafc;
+            padding: 28px 20px;
+            text-align: center;
+            cursor: pointer;
+            transition: border-color 0.2s ease, background 0.2s ease;
+        }
+
+        .upload-box:hover,
+        .upload-box.drag-over {
+            border-color: #4f46e5;
+            background: #eef2ff;
+        }
+
+        .upload-icon {
+            font-size: 2.2rem;
+            color: #4f46e5;
+            margin-bottom: 10px;
+        }
+
+        .upload-box p {
+            color: #334155;
+            font-weight: 600;
+        }
+
+        .upload-box small {
+            color: #64748b;
+        }
+
+        .file-chip {
+            margin-top: 14px;
+            display: none;
+            align-items: center;
+            justify-content: space-between;
+            gap: 12px;
+            background: #ecfeff;
+            border: 1px solid #bae6fd;
+            border-radius: 12px;
+            padding: 10px 12px;
+            color: #0f172a;
+            font-size: 0.93rem;
+            font-weight: 600;
+        }
+
+        .remove-file {
+            border: 0;
+            background: transparent;
+            color: #64748b;
+            font-size: 1rem;
+            cursor: pointer;
+        }
+
+        .form-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 14px;
+            margin-top: 20px;
+        }
+
+        .field {
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+        }
+
+        .field label {
+            font-size: 0.86rem;
+            color: #475569;
+            font-weight: 700;
+        }
+
+        .field input,
+        .field select {
+            width: 100%;
+            border: 1px solid #cbd5e1;
+            border-radius: 10px;
+            padding: 11px 12px;
+            font-size: 0.95rem;
+            background: #fff;
+            color: #0f172a;
+        }
+
+        .field input[readonly] {
+            background: #f8fafc;
+        }
+
+        .status-msg {
+            margin-top: 14px;
+            font-size: 0.9rem;
+            color: #475569;
+            min-height: 20px;
+        }
+
+        .convert-btn {
+            margin-top: 14px;
+            width: 100%;
+            border: 0;
+            border-radius: 12px;
+            padding: 13px 16px;
+            font-size: 1rem;
+            font-weight: 700;
+            color: #fff;
+            background: linear-gradient(135deg, #4f46e5 0%, #7c3aed 100%);
+            cursor: pointer;
+            transition: transform 0.15s ease, box-shadow 0.2s ease;
+        }
+
+        .convert-btn:disabled {
+            cursor: not-allowed;
+            opacity: 0.6;
+            transform: none;
+            box-shadow: none;
+        }
+
+        .convert-btn:not(:disabled):hover {
+            transform: translateY(-1px);
+            box-shadow: 0 10px 25px -12px rgba(79, 70, 229, 0.8);
+        }
+
+        .side-panel {
+            background: #ffffff;
+            border: 1px solid #e2e8f0;
+            border-radius: 22px;
+            box-shadow: 0 24px 45px -35px rgba(15, 23, 42, 0.45);
+            padding: 22px;
+            height: fit-content;
+        }
+
+        .side-panel h3 {
+            font-size: 1.05rem;
+            margin-bottom: 8px;
+        }
+
+        .side-panel p {
+            color: #64748b;
+            font-size: 0.88rem;
+            margin-bottom: 14px;
+        }
+
+        .tool-link {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            text-decoration: none;
+            color: #0f172a;
+            font-weight: 700;
+            border: 1px solid #e2e8f0;
+            border-radius: 11px;
+            padding: 11px 12px;
+            margin-bottom: 10px;
+            background: #fff;
+            transition: border-color 0.2s ease, transform 0.15s ease;
+        }
+
+        .tool-link:hover {
+            border-color: #a5b4fc;
+            transform: translateX(2px);
+        }
+
+        .site-footer {
+            background: #0f172a;
+            color: #cbd5e1;
+            margin-top: 40px;
+            padding: 46px 24px 24px;
+        }
+
+        .footer-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
+            gap: 2rem;
+            margin-bottom: 1.6rem;
+        }
+
+        .footer-section h4 {
+            color: #f1f5f9;
+            margin-bottom: 0.8rem;
+        }
+
+        .footer-section p,
+        .footer-section li,
+        .footer-section a {
+            color: #cbd5e1;
+            text-decoration: none;
+            list-style: none;
+            font-size: 0.9rem;
+        }
+
+        .footer-section ul {
+            list-style: none;
+        }
+
+        .footer-section li {
+            margin-bottom: 0.55rem;
+        }
+
+        .footer-section a:hover {
+            color: #a5b4fc;
+        }
+
+        .footer-bottom {
+            text-align: center;
+            border-top: 1px solid #1e293b;
+            padding-top: 1rem;
+            font-size: 0.85rem;
+        }
+
+        @media (max-width: 980px) {
+            .page-wrap {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 640px) {
+            .converter-container,
+            .side-panel {
+                padding: 18px;
+                border-radius: 16px;
+            }
+
+            .form-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <script src="../../components/navbar.js"></script>
+
+    <main class="page-wrap">
+        <section class="converter-container">
+            <h1 class="converter-title">Smart Doc Converter</h1>
+            <p class="converter-subtitle">Upload your file, we detect format automatically, then choose what to convert it into.</p>
+
+            <div class="step-badge"><i class="fas fa-upload"></i> Step 1: Upload File</div>
+            <div class="upload-box" id="uploadBox" tabindex="0">
+                <div class="upload-icon"><i class="fas fa-cloud-upload-alt"></i></div>
+                <p>Drop your file here or click to browse</p>
+                <small>Supported: PDF, DOC, DOCX, PPT, PPTX, JPG, JPEG, PNG, GIF, BMP</small>
+            </div>
+            <input id="fileInput" type="file" hidden>
+
+            <div class="file-chip" id="fileChip">
+                <span id="fileName">No file selected</span>
+                <button class="remove-file" id="removeFile" aria-label="Remove selected file"><i class="fas fa-times"></i></button>
+            </div>
+
+            <div class="step-badge" style="margin-top:16px;"><i class="fas fa-arrows-rotate"></i> Step 2: Choose Output Format</div>
+            <div class="form-grid">
+                <div class="field">
+                    <label for="inputFormat">Detected Input Format</label>
+                    <input id="inputFormat" type="text" readonly value="Waiting for file...">
+                </div>
+                <div class="field">
+                    <label for="outputFormat">Convert Into</label>
+                    <select id="outputFormat" disabled>
+                        <option value="">Choose output format</option>
+                    </select>
+                </div>
+            </div>
+
+            <p class="status-msg" id="statusMsg">Select a file to continue.</p>
+            <button class="convert-btn" id="convertBtn" disabled>
+                <i class="fas fa-wand-magic-sparkles"></i> Convert
+            </button>
+        </section>
+
+        <aside class="side-panel">
+            <h3>Other SaaS Tools</h3>
+            <p>Open tools in new tabs to keep this conversion flow running.</p>
+            <a class="tool-link" href="../../index.html" target="_blank" rel="noopener noreferrer">
+                <span><i class="fas fa-house"></i> Home</span><i class="fas fa-arrow-up-right-from-square"></i>
+            </a>
+            <a class="tool-link" href="../../image-compressor/image_compressor.html" target="_blank" rel="noopener noreferrer">
+                <span><i class="fas fa-compress"></i> Image Compressor</span><i class="fas fa-arrow-up-right-from-square"></i>
+            </a>
+            <a class="tool-link" href="doc-converter.html" target="_blank" rel="noopener noreferrer">
+                <span><i class="fas fa-file-pdf"></i> PDF to Word</span><i class="fas fa-arrow-up-right-from-square"></i>
+            </a>
+            <a class="tool-link" href="doc-converter.html" target="_blank" rel="noopener noreferrer">
+                <span><i class="fas fa-file-word"></i> Word to PDF</span><i class="fas fa-arrow-up-right-from-square"></i>
+            </a>
+            <a class="tool-link" href="doc-converter.html" target="_blank" rel="noopener noreferrer">
+                <span><i class="fas fa-file-powerpoint"></i> PPT to PDF</span><i class="fas fa-arrow-up-right-from-square"></i>
+            </a>
+        </aside>
+    </main>
+
+    <footer class="site-footer">
+        <div class="footer-content">
+            <div class="footer-section">
+                <h4>ScrapeStack</h4>
+                <p>Free professional tools for developers and creators.</p>
+            </div>
+            <div class="footer-section">
+                <h4>Quick Links</h4>
+                <ul>
+                    <li><a href="../../index.html" target="_blank" rel="noopener noreferrer">Home</a></li>
+                    <li><a href="../../image-compressor/image_compressor.html" target="_blank" rel="noopener noreferrer">Image Compressor</a></li>
+                    <li><a href="doc-converter.html" target="_blank" rel="noopener noreferrer">Doc Converter</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h4>Legal</h4>
+                <ul>
+                    <li><a href="#">Privacy Policy</a></li>
+                    <li><a href="#">Terms of Service</a></li>
+                    <li><a href="#">About Us</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2024 ScrapeStack. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+    <div id="loadingOverlay" class="loading-overlay" style="display: none;">
+    <div class="loading-spinner"></div>
+    <div class="loading-text">Converting your file...</div>
+    <div class="loading-subtext" id="loadingSubtext">This may take a few moments</div>
+    <div class="loading-progress">
+        <div class="loading-progress-bar"></div>
+    </div>
+    <div class="loading-steps">
+        <span id="step1">📤 Uploading</span>
+        <span id="step2">⚙️ Processing</span>
+        <span id="step3">📥 Preparing Download</span>
+    </div>
+</div>
+</body>
+</html>

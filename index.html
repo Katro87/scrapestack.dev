@@ -3,13 +3,79 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-    <meta name="description" content="Free online image compressor. Reduce JPG, PNG, WEBP file size without losing quality. 100% private, no upload required.">
-    <meta name="keywords" content="image compressor, compress images, free image optimizer, reduce image size, webp converter">
+    
+    <!-- Primary SEO Meta Tags -->
+    <title>ScrapeStack | Free Image Compressor & Document Converter - No Watermark, 100% Private</title>
+    <meta name="title" content="ScrapeStack - Free Image Compressor & Document Converter Tools">
+    <meta name="description" content="Free online tools: Compress images (JPG, PNG, WEBP) by up to 80% without quality loss. Convert Word to PDF, PDF to Word, PPT to PDF, merge PDFs. No upload, 100% private, no watermark.">
+    <meta name="keywords" content="image compressor, compress images, free image optimizer, reduce image size, webp converter, doc converter, word to pdf, pdf to word, merge pdf, ppt to pdf, free pdf tools, online image compressor, document converter free">
     <meta name="author" content="ScrapeStack">
-    <meta name="robots" content="index, follow">
-    <title>ScrapeStack | Free Image Compressor & SaaS Tools</title>
+    <meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1">
+    <meta name="googlebot" content="index, follow">
+    
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://scrapestack.com/">
+    <meta property="og:title" content="ScrapeStack - Free Image Compressor & Document Converter">
+    <meta property="og:description" content="Free online tools: Compress images, convert documents, merge PDFs. No upload required. 100% private. No watermark.">
+    <meta property="og:image" content="https://scrapestack.com/image-compressor/images/og-image.png">
+    
+    <!-- Twitter -->
+    <meta property="twitter:card" content="summary_large_image">
+    <meta property="twitter:url" content="https://scrapestack.com/">
+    <meta property="twitter:title" content="ScrapeStack - Free Image Compressor & Document Converter">
+    <meta property="twitter:description" content="Free online tools: Compress images, convert documents, merge PDFs. No upload required. 100% private.">
+    <meta property="twitter:image" content="https://scrapestack.com/image-compressor/images/og-image.png">
+    
+    <!-- Canonical URL -->
+    <link rel="canonical" href="https://scrapestack.com/">
+    
+    <!-- Favicon -->
     <link rel="icon" type="image/x-icon" href="image-compressor/images/favicon.png">
+    <link rel="apple-touch-icon" href="image-compressor/images/apple-touch-icon.png">
+    
+    <!-- CSS -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="/styles/navbar.css">
+    
+    <!-- JSON-LD Structured Data for SEO -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "WebApplication",
+      "name": "ScrapeStack",
+      "url": "https://scrapestack.com/",
+      "description": "Free online image compressor and document converter tools. Compress JPG, PNG, WEBP, convert Word to PDF, merge PDFs, and more.",
+      "applicationCategory": "UtilityApplication",
+      "operatingSystem": "All",
+      "offers": {
+        "@type": "Offer",
+        "price": "0",
+        "priceCurrency": "USD"
+      },
+      "featureList": "Image Compression, Word to PDF, PDF to Word, PPT to PDF, Merge PDF, Image to PDF",
+      "screenshot": "https://scrapestack.com/image-compressor/images/screenshot.png",
+      "author": {
+        "@type": "Organization",
+        "name": "ScrapeStack"
+      }
+    }
+    </script>
+    
+    <!-- BreadcrumbList Schema -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "BreadcrumbList",
+      "itemListElement": [{
+        "@type": "ListItem",
+        "position": 1,
+        "name": "Home",
+        "item": "https://scrapestack.com/"
+      }]
+    }
+    </script>
+    
     <style>
         /* ========== RESET & BASE STYLES (mobile-first) ========== */
         * {
@@ -59,9 +125,11 @@
         }
 
         .logo-img {
-            max-height: 42px;
+            height: 52px;
+            max-height: 52px;
             width: auto;
             object-fit: contain;
+            border-radius: 10px;
         }
 
         /* desktop menu */
@@ -202,6 +270,60 @@
             box-shadow: 0 10px 22px rgba(102, 126, 234, 0.4);
         }
 
+        /* Features Section */
+        .features-section {
+            padding: 40px 20px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 30px;
+            margin-top: 40px;
+        }
+
+        .feature-card {
+            background: white;
+            border-radius: 20px;
+            padding: 28px;
+            text-align: center;
+            transition: all 0.3s ease;
+            border: 1px solid #e2e8f0;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 30px -12px rgba(0, 0, 0, 0.1);
+        }
+
+        .feature-icon {
+            width: 70px;
+            height: 70px;
+            background: linear-gradient(135deg, #667eea15, #764ba215);
+            border-radius: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 20px;
+        }
+
+        .feature-icon i {
+            font-size: 2rem;
+            color: #667eea;
+        }
+
+        .feature-card h3 {
+            font-size: 1.3rem;
+            margin-bottom: 12px;
+        }
+
+        .feature-card p {
+            color: #64748b;
+            font-size: 0.9rem;
+        }
+
         /* Tools Section */
         .tools-section {
             padding: 40px 20px 60px;
@@ -328,6 +450,54 @@
             transform: translateX(4px);
         }
 
+        /* FAQ Section */
+        .faq-section {
+            padding: 60px 20px;
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        .faq-grid {
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+            margin-top: 30px;
+        }
+
+        .faq-item {
+            background: white;
+            border-radius: 16px;
+            border: 1px solid #e2e8f0;
+            overflow: hidden;
+        }
+
+        .faq-question {
+            padding: 20px;
+            font-weight: 600;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: #f8fafc;
+        }
+
+        .faq-question:hover {
+            background: #f1f5f9;
+        }
+
+        .faq-answer {
+            padding: 0 20px;
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease;
+            color: #64748b;
+        }
+
+        .faq-item.active .faq-answer {
+            padding: 0 20px 20px 20px;
+            max-height: 500px;
+        }
+
         /* Footer */
         .site-footer {
             background: #0f172a;
@@ -383,7 +553,7 @@
             font-size: 0.8rem;
         }
 
-        /* ========== MOBILE STYLES (collapsible navbar fix) ========== */
+        /* ========== MOBILE STYLES ========== */
         @media (max-width: 768px) {
             .nav-container {
                 padding: 0.7rem 1.2rem;
@@ -429,7 +599,6 @@
                 width: 100%;
             }
             
-            /* overlay background when menu is open */
             .nav-overlay {
                 position: fixed;
                 top: 0;
@@ -484,7 +653,6 @@
             }
         }
         
-        /* small device extra polish */
         @media (max-width: 480px) {
             .hero-stats {
                 gap: 12px;
@@ -505,51 +673,30 @@
             }
         }
         
-        /* desktop fine-tuning */
         @media (min-width: 769px) {
             .nav-menu {
                 display: flex !important;
             }
         }
         
-        /* prevent body scroll when menu open */
         body.menu-open {
             overflow: hidden;
         }
     </style>
 </head>
 <body>
-    <!-- Navbar (fixed with mobile hamburger + overlay) -->
-    <nav class="navbar">
-        <div class="nav-container">
-            <div class="nav-logo">
-                <a href="index.html">
-                    <img src="image-compressor/images/logo.png" alt="ScrapeStack Logo" class="logo-img" onerror="this.style.display='none'">
-                </a>
-            </div>
-            <div class="nav-menu" id="navMenu">
-                <ul class="nav-links">
-                    <li><a href="index.html" class="nav-link active">Home</a></li>
-                    <li><a href="image-compressor/image_compressor.html" class="nav-link" target="_blank">Image Compressor</a></li>
-                </ul>
-            </div>
-            <button class="nav-toggle" id="navToggle" aria-label="Toggle navigation menu">
-                <i class="fas fa-bars"></i>
-            </button>
-        </div>
-    </nav>
-    <!-- Mobile overlay (click to close) -->
+     <script src="components/navbar.js"></script>
     <div class="nav-overlay" id="navOverlay"></div>
 
     <!-- Hero Section -->
     <section class="hero">
         <div class="hero-content">
-            <h1>Compress Images <span class="highlight">For Free</span></h1>
-            <p class="hero-subtitle">Reduce JPG, PNG, and WEBP file sizes instantly. No upload. No signup. 100% private.</p>
+            <h1>Compress Images & Convert Documents <span class="highlight">For Free</span></h1>
+            <p class="hero-subtitle">Reduce image file sizes by up to 80% without quality loss. Convert Word to PDF, merge PDFs, and more. No upload. No signup. 100% private.</p>
             <div class="hero-stats">
                 <div class="stat">
                     <i class="fas fa-bolt"></i>
-                    <span>Instant Compression</span>
+                    <span>Instant Processing</span>
                 </div>
                 <div class="stat">
                     <i class="fas fa-shield-alt"></i>
@@ -559,18 +706,74 @@
                     <i class="fas fa-infinity"></i>
                     <span>No Limits</span>
                 </div>
+                <div class="stat">
+                    <i class="fas fa-watermark"></i>
+                    <span>No Watermark</span>
+                </div>
             </div>
-            <a href="image-compressor/image_compressor.html" class="btn-hero" target="_blank">
-                <i class="fas fa-compress-alt"></i> Compress Image Now
+            <a href="image-compressor/image_compressor.html" class="btn-hero">
+                <i class="fas fa-compress-alt"></i> Try Image Compressor Now
             </a>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section class="features-section">
+        <div class="section-header">
+            <h2><i class="fas fa-star"></i> Why Choose ScrapeStack?</h2>
+            <p>Professional tools designed for speed, privacy, and reliability</p>
+        </div>
+        <div class="features-grid">
+            <div class="feature-card">
+                <div class="feature-icon">
+                    <i class="fas fa-eye-slash"></i>
+                </div>
+                <h3>100% Private</h3>
+                <p>All processing happens locally in your browser. No files ever leave your device.</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">
+                    <i class="fas fa-bolt"></i>
+                </div>
+                <h3>Lightning Fast</h3>
+                <p>Optimized algorithms deliver results in milliseconds, not minutes.</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">
+                    <i class="fas fa-infinity"></i>
+                </div>
+                <h3>Completely Free</h3>
+                <p>No premium tiers, no hidden costs, no credit card required. Ever.</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">
+                    <i class="fas fa-watermark"></i>
+                </div>
+                <h3>No Watermark</h3>
+                <p>Clean output files without any branding or watermarks.</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">
+                    <i class="fas fa-mobile-alt"></i>
+                </div>
+                <h3>Works Anywhere</h3>
+                <p>Fully responsive design works on desktop, tablet, and mobile devices.</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">
+                    <i class="fas fa-file-alt"></i>
+                </div>
+                <h3>Multiple Formats</h3>
+                <p>Support for JPG, PNG, WEBP, DOCX, PDF, PPTX, and more.</p>
+            </div>
         </div>
     </section>
 
     <!-- Tools Section -->
     <section class="tools-section">
         <div class="section-header">
-            <h2><i class="fas fa-toolbox"></i> Our SaaS Tools</h2>
-            <p>Professional tools to optimize your workflow</p>
+            <h2><i class="fas fa-toolbox"></i> Free SaaS Tools</h2>
+            <p>Professional tools to optimize your workflow — 100% free</p>
         </div>
         
         <div class="tools-grid">
@@ -580,15 +783,106 @@
                     <i class="fas fa-compress-alt"></i>
                 </div>
                 <h3>Image Compressor</h3>
-                <p>Reduce image file size by up to 80% without losing quality. Supports JPG, PNG, and WEBP formats.</p>
+                <p>Reduce JPG, PNG, and WEBP file sizes by up to 80% without losing quality. Perfect for web optimization.</p>
                 <div class="tool-features">
                     <span><i class="fas fa-check"></i> No upload</span>
                     <span><i class="fas fa-check"></i> Private</span>
                     <span><i class="fas fa-check"></i> Free</span>
+                    <span><i class="fas fa-check"></i> Lossless</span>
                 </div>
-                <a href="image-compressor/image_compressor.html" class="btn-tool" target="_blank">
-                    <i class="fas fa-arrow-right"></i> Compress Image
+                <a href="image-compressor/image_compressor.html" class="btn-tool">
+                    <i class="fas fa-arrow-right"></i> Compress Images
                 </a>
+            </div>
+
+            <!-- Tool Card - Doc Converter -->
+            <div class="tool-card">
+                <div class="tool-icon">
+                    <i class="fas fa-file-alt"></i>
+                </div>
+                <h3>Document Converter</h3>
+                <p>Convert Word to PDF, PPT to PDF, images to PDF, and merge multiple PDFs. No watermark, completely free.</p>
+                <div class="tool-features">
+                    <span><i class="fas fa-check"></i> Word → PDF</span>
+                    <span><i class="fas fa-check"></i> PPT → PDF</span>
+                    <span><i class="fas fa-check"></i> Image → PDF</span>
+                    <span><i class="fas fa-check"></i> Merge PDFs</span>
+                </div>
+                <a href="Doc-Converter/public/doc-converter.html" class="btn-tool">
+                    <i class="fas fa-arrow-right"></i> Convert Documents
+                </a>
+            </div>
+
+            <!-- Tool Card - Web Scraping API -->
+            <div class="tool-card">
+                <div class="tool-icon">
+                    <i class="fas fa-cloud-upload-alt"></i>
+                </div>
+                <h3>Web Scraping API</h3>
+                <p>Extract data from any website with our powerful REST API. JavaScript rendering, proxy rotation, and anti-bot handling.</p>
+                <div class="tool-features">
+                    <span><i class="fas fa-check"></i> JS Rendering</span>
+                    <span><i class="fas fa-check"></i> Proxy Rotation</span>
+                    <span><i class="fas fa-check"></i> Fast Response</span>
+                </div>
+                <a href="what-is-scrapestack.html" class="btn-tool">
+                    <i class="fas fa-arrow-right"></i> Learn More
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- FAQ Section -->
+    <section class="faq-section">
+        <div class="section-header">
+            <h2><i class="fas fa-question-circle"></i> Frequently Asked Questions</h2>
+            <p>Everything you need to know about our free tools</p>
+        </div>
+        <div class="faq-grid">
+            <div class="faq-item">
+                <div class="faq-question">
+                    <span>Is ScrapeStack really free?</span>
+                    <i class="fas fa-chevron-down"></i>
+                </div>
+                <div class="faq-answer">
+                    Yes! ScrapeStack is completely free. No premium tiers, no hidden costs, no credit card required. We believe essential tools should be accessible to everyone.
+                </div>
+            </div>
+            <div class="faq-item">
+                <div class="faq-question">
+                    <span>Do you add watermarks to converted files?</span>
+                    <i class="fas fa-chevron-down"></i>
+                </div>
+                <div class="faq-answer">
+                    Never. All converted files are clean and watermark-free. We don't add any branding to your documents or images.
+                </div>
+            </div>
+            <div class="faq-item">
+                <div class="faq-question">
+                    <span>Is my data private and secure?</span>
+                    <i class="fas fa-chevron-down"></i>
+                </div>
+                <div class="faq-answer">
+                    Absolutely. Image compression happens entirely in your browser - files never leave your device. For document conversion, files are automatically deleted after 1 hour.
+                </div>
+            </div>
+            <div class="faq-item">
+                <div class="faq-question">
+                    <span>What file formats do you support?</span>
+                    <i class="fas fa-chevron-down"></i>
+                </div>
+                <div class="faq-answer">
+                    Images: JPG, JPEG, PNG, WEBP, GIF, BMP. Documents: DOC, DOCX, PDF, PPT, PPTX. Output formats include PDF, optimized images, and merged PDFs.
+                </div>
+            </div>
+            <div class="faq-item">
+                <div class="faq-question">
+                    <span>Is there a file size limit?</span>
+                    <i class="fas fa-chevron-down"></i>
+                </div>
+                <div class="faq-answer">
+                    Image compression has no size limit (works directly in browser). Document conversion supports up to 100MB per file to ensure reasonable processing times.
+                </div>
             </div>
         </div>
     </section>
@@ -598,13 +892,22 @@
         <div class="footer-content">
             <div class="footer-section">
                 <h4>ScrapeStack</h4>
-                <p>Free professional tools for developers and creators.</p>
+                <p>Free professional tools for developers and creators. Compress images, convert documents, and scrape web data — all 100% free.</p>
             </div>
             <div class="footer-section">
-                <h4>Quick Links</h4>
+                <h4>Free Tools</h4>
                 <ul>
-                    <li><a href="index.html">Home</a></li>
-                    <li><a href="image-compressor/image_compressor.html" target="_blank">Image Compressor</a></li>
+                    <li><a href="image-compressor/image_compressor.html">Image Compressor</a></li>
+                    <li><a href="Doc-Converter/public/doc-converter.html">Document Converter</a></li>
+                    <li><a href="what-is-scrapestack.html">Web Scraping API</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h4>Learn</h4>
+                <ul>
+                    <li><a href="what-is-scrapestack.html">What is ScrapeStack?</a></li>
+                    <li><a href="how-to-scrape-a-website.html">How to Scrape a Website</a></li>
+                    <li><a href="scrapestack-api-details.html">API Documentation</a></li>
                 </ul>
             </div>
             <div class="footer-section">
@@ -617,11 +920,11 @@
             </div>
         </div>
         <div class="footer-bottom">
-            <p>&copy; 2024 ScrapeStack. All rights reserved.</p>
+            <p>&copy; 2025 ScrapeStack. All rights reserved. Free image compressor, document converter, and web scraping tools.</p>
         </div>
     </footer>
 
-    <!-- improved mobile menu script with overlay and touch handling -->
+    <!-- Mobile Menu Script -->
     <script>
         (function() {
             const navToggle = document.getElementById('navToggle');
@@ -634,7 +937,6 @@
                     navMenu.classList.remove('active');
                     if (navOverlay) navOverlay.classList.remove('active');
                     body.classList.remove('menu-open');
-                    // reset aria label
                     if (navToggle) navToggle.setAttribute('aria-label', 'Open menu');
                 }
             }
@@ -657,7 +959,6 @@
                 }
             }
 
-            // Event listeners
             if (navToggle) {
                 navToggle.addEventListener('click', toggleMenu);
             }
@@ -666,7 +967,6 @@
                 navOverlay.addEventListener('click', closeMenu);
             }
 
-            // Close menu when clicking on any nav link (mobile)
             const navLinks = document.querySelectorAll('.nav-link');
             navLinks.forEach(link => {
                 link.addEventListener('click', function() {
@@ -676,26 +976,38 @@
                 });
             });
 
-            // On window resize, if screen resizes to desktop and menu is forced open, close it and reset styles
             window.addEventListener('resize', function() {
                 if (window.innerWidth > 768 && navMenu && navMenu.classList.contains('active')) {
                     closeMenu();
                 }
-                // ensure no inline overflow issues
                 if (window.innerWidth > 768 && body.classList.contains('menu-open')) {
                     body.classList.remove('menu-open');
                 }
             });
 
-            // Prevent body scroll when menu is open via esc key
             document.addEventListener('keydown', function(e) {
                 if (e.key === 'Escape' && navMenu && navMenu.classList.contains('active')) {
                     closeMenu();
                 }
             });
+
+            // FAQ Accordion
+            const faqItems = document.querySelectorAll('.faq-item');
+            faqItems.forEach(item => {
+                const question = item.querySelector('.faq-question');
+                question.addEventListener('click', () => {
+                    item.classList.toggle('active');
+                    const icon = question.querySelector('i');
+                    if (item.classList.contains('active')) {
+                        icon.classList.remove('fa-chevron-down');
+                        icon.classList.add('fa-chevron-up');
+                    } else {
+                        icon.classList.remove('fa-chevron-up');
+                        icon.classList.add('fa-chevron-down');
+                    }
+                });
+            });
         })();
     </script>
-    <!-- optional: keep script reference for image compressor but avoid duplicate errors -->
-    <script src="image-compressor/script.js" async defer></script>
 </body>
 </html>

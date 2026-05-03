@@ -1,0 +1,448 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <meta name="description" content="Download your converted file and continue with other ScrapeStack tools.">
+    <title>ScrapeStack | Download Converted File</title>
+    <link rel="icon" type="image/x-icon" href="image-compressor/images/favicon.png">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="styles/navbar.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: system-ui, -apple-system, Segoe UI, Roboto, Helvetica Neue, sans-serif;
+            background: linear-gradient(160deg, #f8fbff 0%, #eef2ff 55%, #f6f8fc 100%);
+            color: #0f172a;
+            min-height: 100vh;
+            display: block;
+            padding: 0;
+        }
+
+        .page-wrap {
+            max-width: 1240px;
+            margin: 24px auto 0;
+            padding: 0 18px 40px;
+            display: grid;
+            grid-template-columns: minmax(0, 1.7fr) minmax(260px, 1fr);
+            gap: 22px;
+        }
+
+        .download-container {
+            background: #ffffff;
+            border: 1px solid #e2e8f0;
+            border-radius: 22px;
+            box-shadow: 0 24px 45px -35px rgba(15, 23, 42, 0.5);
+            padding: 30px;
+        }
+
+        .download-title {
+            font-size: clamp(1.7rem, 2.8vw, 2.3rem);
+            margin-bottom: 8px;
+            font-weight: 800;
+            letter-spacing: -0.01em;
+        }
+
+        .download-subtitle {
+            color: #475569;
+            margin-bottom: 24px;
+            font-size: 0.98rem;
+        }
+
+        .ready-box {
+            background: linear-gradient(180deg, #f8fafc 0%, #eef2ff 100%);
+            border: 1px solid #cbd5e1;
+            border-radius: 16px;
+            padding: 18px;
+            margin-bottom: 16px;
+        }
+
+        .ready-box h3 {
+            margin-bottom: 10px;
+            font-size: 1.08rem;
+        }
+
+        .meta-list {
+            list-style: none;
+            color: #334155;
+            font-size: 0.93rem;
+            line-height: 1.7;
+        }
+
+        .download-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            text-decoration: none;
+            border: 0;
+            border-radius: 12px;
+            padding: 13px 16px;
+            font-size: 1rem;
+            font-weight: 700;
+            color: #fff;
+            background: linear-gradient(135deg, #16a34a 0%, #059669 100%);
+            cursor: pointer;
+            transition: transform 0.15s ease, box-shadow 0.2s ease;
+        }
+
+        .download-btn:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 10px 25px -12px rgba(5, 150, 105, 0.8);
+        }
+
+        .secondary-row {
+            margin-top: 12px;
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        .secondary-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            text-decoration: none;
+            border: 1px solid #cbd5e1;
+            border-radius: 10px;
+            padding: 10px 12px;
+            font-size: 0.9rem;
+            color: #0f172a;
+            background: #fff;
+            font-weight: 700;
+        }
+
+        .side-panel {
+            background: #ffffff;
+            border: 1px solid #e2e8f0;
+            border-radius: 22px;
+            box-shadow: 0 24px 45px -35px rgba(15, 23, 42, 0.45);
+            padding: 22px;
+            height: fit-content;
+        }
+
+        .side-panel h3 {
+            font-size: 1.05rem;
+            margin-bottom: 8px;
+        }
+
+        .side-panel p {
+            color: #64748b;
+            font-size: 0.88rem;
+            margin-bottom: 14px;
+        }
+
+        .tool-link {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            text-decoration: none;
+            color: #0f172a;
+            font-weight: 700;
+            border: 1px solid #e2e8f0;
+            border-radius: 11px;
+            padding: 11px 12px;
+            margin-bottom: 10px;
+            background: #fff;
+            transition: border-color 0.2s ease, transform 0.15s ease;
+        }
+
+        .tool-link:hover {
+            border-color: #a5b4fc;
+            transform: translateX(2px);
+        }
+
+        .redirect-message {
+            margin-top: 20px;
+            padding: 12px;
+            background: #e3f2fd;
+            border-radius: 12px;
+            text-align: center;
+            font-size: 0.85rem;
+            color: #1976d2;
+        }
+
+        .redirect-message i {
+            margin-right: 6px;
+        }
+
+        .countdown {
+            font-weight: bold;
+            color: #667eea;
+        }
+
+        .site-footer {
+            background: #0f172a;
+            color: #cbd5e1;
+            margin-top: 40px;
+            padding: 46px 24px 24px;
+        }
+
+        .footer-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
+            gap: 2rem;
+            margin-bottom: 1.6rem;
+        }
+
+        .footer-section h4 {
+            color: #f1f5f9;
+            margin-bottom: 0.8rem;
+        }
+
+        .footer-section p,
+        .footer-section li,
+        .footer-section a {
+            color: #cbd5e1;
+            text-decoration: none;
+            list-style: none;
+            font-size: 0.9rem;
+        }
+
+        .footer-section ul {
+            list-style: none;
+        }
+
+        .footer-section li {
+            margin-bottom: 0.55rem;
+        }
+
+        .footer-section a:hover {
+            color: #a5b4fc;
+        }
+
+        .footer-bottom {
+            text-align: center;
+            border-top: 1px solid #1e293b;
+            padding-top: 1rem;
+            font-size: 0.85rem;
+        }
+
+        @media (max-width: 980px) {
+            .page-wrap {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 640px) {
+            .download-container,
+            .side-panel {
+                padding: 18px;
+                border-radius: 16px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <script src="components/navbar.js"></script>
+
+    <main class="page-wrap">
+        <section class="download-container">
+            <h1 class="download-title">Your File Is Ready</h1>
+            <p class="download-subtitle">Download now, then open any other tool in a new tab.</p>
+
+            <div class="ready-box" id="readyBox">
+                <h3><i class="fas fa-circle-check"></i> Converted Successfully</h3>
+                <ul class="meta-list">
+                    <li><strong>Source:</strong> <span id="sourceName">-</span></li>
+                    <li><strong>Converted To:</strong> <span id="targetType">-</span></li>
+                    <li><strong>Size:</strong> <span id="fileSize">-</span></li>
+                </ul>
+            </div>
+
+            <a id="downloadBtn" class="download-btn" href="#" download>
+                <i class="fas fa-download"></i> Download Converted File
+            </a>
+
+            <div class="secondary-row">
+                <a class="secondary-btn" href="Doc-Converter/public/doc-converter.html">
+                    <i class="fas fa-rotate-left"></i> Convert Another File
+                </a>
+            </div>
+
+            <div class="redirect-message" id="redirectMessage" style="display: none;">
+                <i class="fas fa-hourglass-half"></i> Redirecting to <strong>Doc Converter</strong> in <span class="countdown" id="countdown">5</span> seconds...
+            </div>
+        </section>
+
+        <aside class="side-panel">
+            <h3>Other SaaS Tools</h3>
+            <p>Keep users engaged by opening each tool in its own tab.</p>
+            <a class="tool-link" href="index.html" target="_blank" rel="noopener noreferrer">
+                <span><i class="fas fa-house"></i> Home</span><i class="fas fa-arrow-up-right-from-square"></i>
+            </a>
+            <a class="tool-link" href="image-compressor/image_compressor.html" target="_blank" rel="noopener noreferrer">
+                <span><i class="fas fa-compress"></i> Image Compressor</span><i class="fas fa-arrow-up-right-from-square"></i>
+            </a>
+            <a class="tool-link" href="Doc-Converter/public/doc-converter.html" target="_blank" rel="noopener noreferrer">
+                <span><i class="fas fa-file-word"></i> Word to PDF</span><i class="fas fa-arrow-up-right-from-square"></i>
+            </a>
+            <a class="tool-link" href="Doc-Converter/public/doc-converter.html" target="_blank" rel="noopener noreferrer">
+                <span><i class="fas fa-file-powerpoint"></i> PPT to PDF</span><i class="fas fa-arrow-up-right-from-square"></i>
+            </a>
+            <a class="tool-link" href="Doc-Converter/public/doc-converter.html" target="_blank" rel="noopener noreferrer">
+                <span><i class="fas fa-file-image"></i> Image to PDF</span><i class="fas fa-arrow-up-right-from-square"></i>
+            </a>
+        </aside>
+    </main>
+
+    <footer class="site-footer">
+        <div class="footer-content">
+            <div class="footer-section">
+                <h4>ScrapeStack</h4>
+                <p>Free professional tools for developers and creators.</p>
+            </div>
+            <div class="footer-section">
+                <h4>Quick Links</h4>
+                <ul>
+                    <li><a href="index.html" target="_blank" rel="noopener noreferrer">Home</a></li>
+                    <li><a href="image-compressor/image_compressor.html" target="_blank" rel="noopener noreferrer">Image Compressor</a></li>
+                    <li><a href="Doc-Converter/public/doc-converter.html" target="_blank" rel="noopener noreferrer">Doc Converter</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h4>Legal</h4>
+                <ul>
+                    <li><a href="#">Privacy Policy</a></li>
+                    <li><a href="#">Terms of Service</a></li>
+                    <li><a href="#">About Us</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2024 ScrapeStack. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script>
+        let redirectTimer = null;
+        let countdownInterval = null;
+
+        (function () {
+            const raw = localStorage.getItem('scrapestack-download');
+            const sourceNameEl = document.getElementById('sourceName');
+            const targetTypeEl = document.getElementById('targetType');
+            const fileSizeEl = document.getElementById('fileSize');
+            const downloadBtn = document.getElementById('downloadBtn');
+            const readyBox = document.getElementById('readyBox');
+            const redirectMessage = document.getElementById('redirectMessage');
+
+            if (!raw) {
+                readyBox.innerHTML = '<h3><i class="fas fa-circle-exclamation"></i> No converted file found</h3><p>Please go back and convert a file first.</p>';
+                downloadBtn.style.display = 'none';
+                return;
+            }
+
+            let data = null;
+            try {
+                data = JSON.parse(raw);
+                console.log('Download data loaded:', data);
+            } catch (_) {
+                readyBox.innerHTML = '<h3><i class="fas fa-circle-exclamation"></i> Download data is invalid</h3><p>Please convert the file again.</p>';
+                downloadBtn.style.display = 'none';
+                return;
+            }
+
+            function startRedirect() {
+                redirectMessage.style.display = 'block';
+                let seconds = 5;
+                const countdownEl = document.getElementById('countdown');
+                
+                countdownInterval = setInterval(() => {
+                    seconds--;
+                    if (countdownEl) countdownEl.textContent = seconds;
+                    
+                    if (seconds <= 0) {
+                        clearInterval(countdownInterval);
+                        clearTimeout(redirectTimer);
+                        // Clear download data from localStorage
+                        localStorage.removeItem('scrapestack-download');
+                        // Redirect to doc converter page
+                        window.location.href = 'Doc-Converter/public/doc-converter.html';
+                    }
+                }, 1000);
+            }
+
+            // Check for base64 file data (new format) or old blob URL format
+            if (data.fileData) {
+                // New format with base64 data
+                sourceNameEl.textContent = data.sourceName || '-';
+                targetTypeEl.textContent = (data.outputExt || '').toUpperCase() || '-';
+                fileSizeEl.textContent = formatBytes(data.size || 0);
+                
+                downloadBtn.onclick = function(e) {
+                    e.preventDefault();
+                    
+                    // Convert base64 back to blob
+                    const base64Data = data.fileData;
+                    const byteCharacters = atob(base64Data.split(',')[1]);
+                    const byteArrays = [];
+                    
+                    for (let i = 0; i < byteCharacters.length; i++) {
+                        byteArrays.push(byteCharacters.charCodeAt(i));
+                    }
+                    
+                    const byteArray = new Uint8Array(byteArrays);
+                    const blob = new Blob([byteArray], { type: data.contentType || 'application/octet-stream' });
+                    
+                    // Create download link
+                    const url = URL.createObjectURL(blob);
+                    const a = document.createElement('a');
+                    a.href = url;
+                    a.download = data.fileName;
+                    document.body.appendChild(a);
+                    a.click();
+                    document.body.removeChild(a);
+                    
+                    // Cleanup
+                    setTimeout(() => URL.revokeObjectURL(url), 1000);
+                    
+                    // Start redirect countdown after download
+                    startRedirect();
+                };
+                
+            } else if (data.downloadUrl || data.objectUrl) {
+                // Old format with blob URL
+                sourceNameEl.textContent = data.sourceName || '-';
+                targetTypeEl.textContent = (data.outputExt || '').toUpperCase() || '-';
+                fileSizeEl.textContent = formatBytes(data.size || 0);
+                
+                downloadBtn.href = data.downloadUrl || data.objectUrl;
+                downloadBtn.download = data.fileName;
+                
+                // For old format, add click handler to start redirect
+                downloadBtn.addEventListener('click', function() {
+                    setTimeout(() => startRedirect(), 1000);
+                });
+            } else {
+                readyBox.innerHTML = '<h3><i class="fas fa-circle-exclamation"></i> Download data is missing</h3><p>Please convert the file again.</p>';
+                downloadBtn.style.display = 'none';
+                return;
+            }
+
+            // Also redirect if user clicks "Convert Another File" button
+            const convertAnotherBtn = document.querySelector('.secondary-btn');
+            if (convertAnotherBtn) {
+                convertAnotherBtn.addEventListener('click', function(e) {
+                    // Clear download data before leaving
+                    localStorage.removeItem('scrapestack-download');
+                });
+            }
+        })();
+
+        function formatBytes(bytes) {
+            if (!bytes) return '0 B';
+            const units = ['B', 'KB', 'MB', 'GB'];
+            const i = Math.min(Math.floor(Math.log(bytes) / Math.log(1024)), units.length - 1);
+            const value = bytes / Math.pow(1024, i);
+            return `${value.toFixed(i === 0 ? 0 : 1)} ${units[i]}`;
+        }
+    </script>
+</body>
+</html>

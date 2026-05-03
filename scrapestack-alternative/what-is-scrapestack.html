@@ -1,0 +1,389 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <meta name="description" content="ScrapeStack is a powerful web scraping API that converts any webpage into clean, usable data. No blocks, no CAPTCHAs, no complexity.">
+    <meta name="keywords" content="web scraping API, data extraction, scrape websites, ScrapeStack">
+    <meta name="author" content="ScrapeStack">
+    <meta name="robots" content="index, follow">
+    <title>What is ScrapeStack? | Web Scraping API Explained</title>
+    <link rel="icon" type="image/x-icon" href="/image-compressor/images/favicon.png">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="/styles/navbar.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: system-ui, -apple-system, Segoe UI, Roboto, Helvetica Neue, sans-serif;
+            background: linear-gradient(160deg, #f8fbff 0%, #eef2ff 55%, #f6f8fc 100%);
+            color: #0f172a;
+            line-height: 1.6;
+        }
+
+        .page-header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 80px 20px;
+            text-align: center;
+        }
+
+        .page-header h1 {
+            font-size: clamp(2rem, 5vw, 3.5rem);
+            margin-bottom: 1rem;
+        }
+
+        .page-header p {
+            font-size: clamp(1rem, 3vw, 1.2rem);
+            max-width: 700px;
+            margin: 0 auto;
+            opacity: 0.95;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 40px 24px;
+        }
+
+        .section {
+            background: white;
+            border-radius: 24px;
+            padding: 32px;
+            margin-bottom: 32px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.05);
+            border: 1px solid #e2e8f0;
+        }
+
+        .section h2 {
+            font-size: 1.8rem;
+            margin-bottom: 20px;
+            color: #1a202c;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .section h2 i {
+            color: #667eea;
+            font-size: 1.8rem;
+        }
+
+        .section h3 {
+            font-size: 1.3rem;
+            margin: 24px 0 12px 0;
+            color: #2d3748;
+        }
+
+        .grid-2 {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 24px;
+            margin: 24px 0;
+        }
+
+        .card {
+            background: #f8fafc;
+            padding: 24px;
+            border-radius: 16px;
+            border: 1px solid #e2e8f0;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+        .card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 12px 24px -12px rgba(0,0,0,0.15);
+        }
+
+        .card i {
+            font-size: 2rem;
+            color: #667eea;
+            margin-bottom: 16px;
+        }
+
+        .card h4 {
+            font-size: 1.2rem;
+            margin-bottom: 12px;
+        }
+
+        .step-flow {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 16px;
+            margin: 32px 0;
+        }
+
+        .step {
+            flex: 1;
+            text-align: center;
+            padding: 20px;
+            background: #f8fafc;
+            border-radius: 16px;
+            position: relative;
+        }
+
+        .step .step-number {
+            width: 40px;
+            height: 40px;
+            background: #667eea;
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 12px;
+            font-weight: bold;
+            font-size: 1.2rem;
+        }
+
+        .step-arrow {
+            font-size: 1.5rem;
+            color: #cbd5e1;
+        }
+
+        .badge {
+            display: inline-block;
+            background: #e6fffa;
+            color: #2c7a7b;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            margin-right: 8px;
+            margin-bottom: 8px;
+        }
+
+        .code-block {
+            background: #1a202c;
+            color: #e2e8f0;
+            padding: 20px;
+            border-radius: 12px;
+            overflow-x: auto;
+            font-family: 'Courier New', monospace;
+            font-size: 0.9rem;
+            margin: 16px 0;
+        }
+
+        .cta-button {
+            display: inline-block;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            padding: 14px 32px;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: 600;
+            margin-top: 16px;
+            transition: transform 0.2s;
+        }
+
+        .cta-button:hover {
+            transform: translateY(-2px);
+        }
+
+        .site-footer {
+            background: #0f172a;
+            color: #cbd5e1;
+            margin-top: 60px;
+            padding: 46px 24px 24px;
+        }
+
+        .footer-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
+            gap: 2rem;
+            margin-bottom: 1.6rem;
+        }
+
+        .footer-section h4 {
+            color: #f1f5f9;
+            margin-bottom: 0.8rem;
+        }
+
+        .footer-section a {
+            color: #cbd5e1;
+            text-decoration: none;
+        }
+
+        .footer-section a:hover {
+            color: #a5b4fc;
+        }
+
+        .footer-bottom {
+            text-align: center;
+            border-top: 1px solid #1e293b;
+            padding-top: 1rem;
+            font-size: 0.85rem;
+        }
+
+        @media (max-width: 768px) {
+            .step-flow {
+                flex-direction: column;
+            }
+            .step-arrow {
+                transform: rotate(90deg);
+            }
+            .section {
+                padding: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <script src="components/navbar.js"></script>
+
+    <div class="page-header">
+        <h1>What is ScrapeStack?</h1>
+        <p>A powerful REST API that converts any webpage into clean, usable data — instantly.</p>
+    </div>
+
+    <div class="container">
+        <div class="section">
+            <h2><i class="fas fa-question-circle"></i> Simple Definition</h2>
+            <p style="font-size: 1.2rem; font-weight: 500;">ScrapeStack is a REST API that converts any webpage into structured, usable data — without getting blocked, solving CAPTCHAs, or writing complex scraping code.</p>
+        </div>
+
+        <div class="section">
+            <h2><i class="fas fa-cogs"></i> How It Works</h2>
+            <div class="step-flow">
+                <div class="step">
+                    <div class="step-number">1</div>
+                    <strong>Send URL</strong>
+                    <p style="margin-top: 8px; font-size: 0.9rem;">You send a webpage URL to our API</p>
+                </div>
+                <div class="step-arrow"><i class="fas fa-arrow-right"></i></div>
+                <div class="step">
+                    <div class="step-number">2</div>
+                    <strong>API Fetches Page</strong>
+                    <p style="margin-top: 8px; font-size: 0.9rem;">Our servers load the page with JS rendering</p>
+                </div>
+                <div class="step-arrow"><i class="fas fa-arrow-right"></i></div>
+                <div class="step">
+                    <div class="step-number">3</div>
+                    <strong>Returns Clean Data</strong>
+                    <p style="margin-top: 8px; font-size: 0.9rem;">You receive HTML/JSON ready to use</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="section">
+            <h2><i class="fas fa-bug"></i> What Problems It Solves</h2>
+            <div class="grid-2">
+                <div class="card">
+                    <i class="fas fa-shield-alt"></i>
+                    <h4>Websites Blocking Bots</h4>
+                    <p>Our smart rotation and headers help you avoid IP bans and CAPTCHAs.</p>
+                </div>
+                <div class="card">
+                    <i class="fas fa-code"></i>
+                    <h4>JavaScript-Rendered Content</h4>
+                    <p>Modern websites use React, Vue, or Angular. We render JS so you get the actual content.</p>
+                </div>
+                <div class="card">
+                    <i class="fas fa-chart-line"></i>
+                    <h4>Manual Scraping Complexity</h4>
+                    <p>No more dealing with proxies, timeouts, or parsing errors. One API call does it all.</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="section">
+            <h2><i class="fas fa-star"></i> Key Features</h2>
+            <div>
+                <span class="badge"><i class="fas fa-check"></i> JavaScript Rendering</span>
+                <span class="badge"><i class="fas fa-check"></i> Proxy Rotation</span>
+                <span class="badge"><i class="fas fa-check"></i> Clean HTML Output</span>
+                <span class="badge"><i class="fas fa-check"></i> JSON Response</span>
+                <span class="badge"><i class="fas fa-check"></i> Fast Response Time</span>
+                <span class="badge"><i class="fas fa-check"></i> Rate Limiting Protection</span>
+            </div>
+        </div>
+
+        <div class="section">
+            <h2><i class="fas fa-users"></i> Who It's For</h2>
+            <div class="grid-2">
+                <div class="card">
+                    <i class="fas fa-laptop-code"></i>
+                    <h4>Developers</h4>
+                    <p>Integrate scraping into your apps with a simple REST API call.</p>
+                </div>
+                <div class="card">
+                    <i class="fas fa-chart-simple"></i>
+                    <h4>Marketers</h4>
+                    <p>Track competitor pricing, monitor SEO rankings, and gather leads.</p>
+                </div>
+                <div class="card">
+                    <i class="fas fa-database"></i>
+                    <h4>Data Analysts</h4>
+                    <p>Collect large datasets for analysis without infrastructure headaches.</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="section">
+            <h2><i class="fas fa-briefcase"></i> Example Use Cases</h2>
+            <div class="grid-2">
+                <div class="card">
+                    <i class="fas fa-tag"></i>
+                    <h4>Price Tracking</h4>
+                    <p>Monitor e-commerce prices in real-time to stay competitive.</p>
+                </div>
+                <div class="card">
+                    <i class="fas fa-chart-line"></i>
+                    <h4>Competitor Monitoring</h4>
+                    <p>Track your competitors' products, content, and changes.</p>
+                </div>
+                <div class="card">
+                    <i class="fas fa-newspaper"></i>
+                    <h4>Content Aggregation</h4>
+                    <p>Build news aggregators, job boards, or real estate platforms.</p>
+                </div>
+                <div class="card">
+                    <i class="fas fa-robot"></i>
+                    <h4>Lead Generation</h4>
+                    <p>Extract contact info and business data from directories.</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="section" style="text-align: center;">
+            <h2><i class="fas fa-rocket"></i> Ready to Start Scraping?</h2>
+            <p>Get started with ScrapeStack today — no credit card required.</p>
+            <a href="#" class="cta-button"><i class="fas fa-key"></i> Get Your API Key</a>
+        </div>
+    </div>
+
+    <footer class="site-footer">
+        <div class="footer-content">
+            <div class="footer-section">
+                <h4>ScrapeStack</h4>
+                <p>Web scraping API made simple.</p>
+            </div>
+            <div class="footer-section">
+                <h4>Product</h4>
+                <ul style="list-style: none;">
+                    <li><a href="what-is-scrapestack.html">What is ScrapeStack?</a></li>
+                    <li><a href="how-to-scrape-a-website.html">How to Scrape a Website</a></li>
+                    <li><a href="scrapestack-api-details.html">API Details</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h4>Tools</h4>
+                <ul style="list-style: none;">
+                    <li><a href="image-compressor/image_compressor.html">Image Compressor</a></li>
+                    <li><a href="Doc-Converter/public/doc-converter.html">Doc Converter</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2024 ScrapeStack. All rights reserved.</p>
+        </div>
+    </footer>
+</body>
+</html>

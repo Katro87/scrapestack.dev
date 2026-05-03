@@ -1,0 +1,135 @@
+/* styles/navbar.css */
+.navbar {
+    background: white;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+    width: 100%;
+    border-bottom: 1px solid #e2e8f0;
+}
+
+.nav-container {
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 0.85rem 1.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+}
+
+.nav-logo a {
+    display: flex;
+    align-items: center;
+    text-decoration: none;
+}
+
+.logo-img {
+    height: 52px;
+    max-height: 52px;
+    width: auto;
+    object-fit: contain;
+    border-radius: 10px;
+}
+
+.nav-menu {
+    display: flex;
+    align-items: center;
+}
+
+.nav-links {
+    display: flex;
+    list-style: none;
+    gap: 2rem;
+    align-items: center;
+}
+
+.nav-link {
+    text-decoration: none;
+    font-weight: 500;
+    color: #2d3748;
+    transition: color 0.2s;
+    font-size: 1rem;
+    padding: 0.5rem 0;
+}
+
+.nav-link:hover,
+.nav-link.active {
+    color: #667eea;
+}
+
+.nav-toggle {
+    display: none;
+    cursor: pointer;
+    font-size: 1.6rem;
+    background: none;
+    border: none;
+    color: #2d3748;
+}
+
+.nav-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0,0,0,0.3);
+    backdrop-filter: blur(3px);
+    z-index: 998;
+    visibility: hidden;
+    opacity: 0;
+    transition: opacity 0.25s;
+}
+
+.nav-overlay.active {
+    visibility: visible;
+    opacity: 1;
+}
+
+@media (max-width: 768px) {
+    .nav-toggle {
+        display: block;
+    }
+    
+    .nav-menu {
+        position: fixed;
+        top: 68px;
+        left: -100%;
+        width: 80%;
+        max-width: 300px;
+        height: calc(100vh - 68px);
+        background: white;
+        transition: left 0.3s;
+        flex-direction: column;
+        align-items: flex-start;
+        padding: 1.5rem;
+        z-index: 999;
+    }
+    
+    .nav-menu.active {
+        left: 0;
+    }
+    
+    .nav-links {
+        flex-direction: column;
+        gap: 1.4rem;
+        width: 100%;
+    }
+    
+    .nav-link {
+        font-size: 1.1rem;
+        display: block;
+        width: 100%;
+    }
+}
+
+@media (min-width: 769px) {
+    .nav-menu {
+        display: flex !important;
+    }
+}
+
+body.menu-open {
+    overflow: hidden;
+}
