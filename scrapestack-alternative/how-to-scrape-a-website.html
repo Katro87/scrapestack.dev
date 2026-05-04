@@ -8,10 +8,11 @@
     <meta name="author" content="ScrapeStack">
     <meta name="robots" content="index, follow">
     <title>How to Scrape a Website | Complete Tutorial 2024</title>
-    <link rel="icon" type="image/x-icon" href="../../image-compressor/images/favicon.png">
+    <link rel="icon" type="image/x-icon" href="../images/favicon.png">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link rel="stylesheet" href="../../styles/navbar.css">
+    <link rel="stylesheet" href="../styles/navbar.css">
     <style>
+        /* Inline navbar styles as fallback + design consistency */
         * {
             margin: 0;
             padding: 0;
@@ -23,6 +24,78 @@
             background: linear-gradient(160deg, #f8fbff 0%, #eef2ff 55%, #f6f8fc 100%);
             color: #0f172a;
             line-height: 1.6;
+        }
+
+        /* Global navbar styling (ensures visibility even if external CSS fails) */
+        .scrapestack-navbar {
+            background: #0f172a;
+            padding: 0.9rem 2rem;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid #1e293b;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+            position: relative;
+            z-index: 100;
+        }
+        .nav-brand a {
+            font-size: 1.6rem;
+            font-weight: 700;
+            background: linear-gradient(135deg, #a5b4fc, #c084fc);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            text-decoration: none;
+            letter-spacing: -0.3px;
+        }
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+        .nav-links a {
+            color: #000000;
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.2s;
+        }
+        .nav-links a:hover,
+        .nav-link.active {
+            color: #000000;
+        }
+        .nav-cta {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            padding: 0.4rem 1.2rem;
+            border-radius: 40px;
+            color: white !important;
+        }
+        .mobile-toggle {
+            display: none;
+            font-size: 1.5rem;
+            color: white;
+            cursor: pointer;
+        }
+        @media (max-width: 768px) {
+            .scrapestack-navbar {
+                flex-direction: row;
+                flex-wrap: wrap;
+            }
+            .nav-links {
+                display: none;
+                width: 100%;
+                flex-direction: column;
+                gap: 1rem;
+                margin-top: 1rem;
+                padding-bottom: 0.5rem;
+            }
+            .nav-links.show {
+                display: flex;
+            }
+            .mobile-toggle {
+                display: block;
+            }
         }
 
         .page-header {
@@ -189,7 +262,7 @@
     </style>
 </head>
 <body>
-    <script src="../../components/navbar.js"></script>
+    <script src="../components/navbar.js"></script>
 
     <div class="page-header">
         <h1>How to Scrape a Website</h1>
@@ -350,8 +423,8 @@ GET https://api.scrapestack.com/scrape?url=https://example.com
             <div class="footer-section">
                 <h4>Tools</h4>
                 <ul style="list-style: none;">
-                    <li><a href="image-compressor/image_compressor.html">Image Compressor</a></li>
-                    <li><a href="Doc-Converter/public/doc-converter.html">Doc Converter</a></li>
+                    <li><a href="../image-compressor/image_compressor.html">Image Compressor</a></li>
+                    <li><a href="../Doc-Converter/public/doc-converter.html">Doc Converter</a></li>
                 </ul>
             </div>
         </div>
@@ -359,5 +432,43 @@ GET https://api.scrapestack.com/scrape?url=https://example.com
             <p>&copy; 2024 ScrapeStack. All rights reserved.</p>
         </div>
     </footer>
+
+    <!-- Additional script to ensure mobile toggle works even if navbar.js loaded partially -->
+    <script>
+        (function fixNavbarPathAndMobile() {
+            // Ensure any existing navbar from external script also gets mobile toggle handling
+            // This runs after main load to unify behavior
+            const observer = new MutationObserver(function() {
+                const toggle = document.getElementById('mobileNavToggle');
+                const links = document.getElementById('navLinks');
+                if (toggle && links && !toggle.hasListener) {
+                    toggle.addEventListener('click', function(e) {
+                        if (links) links.classList.toggle('show');
+                    });
+                    toggle.hasListener = true;
+                }
+                // Also watch if navbar container got populated from external but missing specific classes
+                const navContainer = document.getElementById('global-navbar');
+                if (navContainer && !navContainer.querySelector('.scrapestack-navbar') && navContainer.innerHTML.trim() !== '') {
+                    // in case external navbar injected but without our custom structure, we add mobile manually
+                    const existingNav = navContainer.querySelector('nav');
+                    if (existingNav && !existingNav.querySelector('.mobile-toggle')) {
+                        // add basic mobile capability
+                        const menuBtn = document.createElement('div');
+                        menuBtn.className = 'mobile-toggle';
+                        menuBtn.innerHTML = '<i class="fas fa-bars"></i>';
+                        const navLinksDiv = existingNav.querySelector('.nav-links, ul');
+                        if (navLinksDiv) {
+                            existingNav.insertBefore(menuBtn, navLinksDiv);
+                            menuBtn.addEventListener('click', () => {
+                                navLinksDiv.classList.toggle('show');
+                            });
+                        }
+                    }
+                }
+            });
+            observer.observe(document.body, { childList: true, subtree: true });
+        })();
+    </script>
 </body>
 </html>

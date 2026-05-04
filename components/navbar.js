@@ -29,7 +29,7 @@ class NavbarComponent {
                 <div class="nav-container">
                     <div class="nav-logo">
                         <a href="${homeLink}" target="_blank" rel="noopener noreferrer">
-                            <img src="${this.basePath}image-compressor/images/logo.png" alt="ScrapeStack Logo" class="logo-img" onerror="this.style.display='none'">
+                            <img src="${this.basePath}images/logo.png" alt="ScrapeStack Logo" class="logo-img" onerror="this.style.display='none'">
                         </a>
                     </div>
                     <div class="nav-menu" id="navMenu">
@@ -135,6 +135,10 @@ function getNavbarBasePath() {
     }
 
     if (path.includes('/image-compressor/')) {
+        return '../';
+    }
+
+    if (path.includes('/scrapestack-alternative/')) {
         return '../';
     }
 
