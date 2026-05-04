@@ -12,9 +12,13 @@
     <meta name="author" content="ScrapeStack">
     <meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1">
     <meta name="googlebot" content="index, follow">
+    <meta name="theme-color" content="#667eea">
+    <meta name="referrer" content="strict-origin-when-cross-origin">
     
     <!-- Open Graph / Facebook -->
     <meta property="og:type" content="website">
+    <meta property="og:site_name" content="ScrapeStack">
+    <meta property="og:locale" content="en_US">
     <meta property="og:url" content="https://scrapestack.com/">
     <meta property="og:title" content="ScrapeStack - Free Image Compressor & Document Converter">
     <meta property="og:description" content="Free online tools: Compress images, convert documents, merge PDFs. No upload required. 100% private. No watermark.">
@@ -61,6 +65,21 @@
       }
     }
     </script>
+
+        <!-- Website Schema -->
+        <script type="application/ld+json">
+        {
+            "@context": "https://schema.org",
+            "@type": "WebSite",
+            "name": "ScrapeStack",
+            "url": "https://scrapestack.com/",
+            "description": "Free tools for image compression, document conversion, and web scraping workflows.",
+            "publisher": {
+                "@type": "Organization",
+                "name": "ScrapeStack"
+            }
+        }
+        </script>
     
     <!-- BreadcrumbList Schema -->
     <script type="application/ld+json">
@@ -82,6 +101,18 @@
             margin: 0;
             padding: 0;
             box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        a:focus-visible,
+        button:focus-visible,
+        input:focus-visible,
+        select:focus-visible {
+            outline: 3px solid #2563eb;
+            outline-offset: 2px;
         }
 
         body {
