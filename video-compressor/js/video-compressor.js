@@ -42,6 +42,7 @@
     let compressedOutputExt = 'mp4';
     let ffmpegLoaded = false;
     let ffmpegLoadAttempted = false;
+    let ffmpegLoadPromise = null; // Track background loading
 
     function uniqueList(items) {
         return [...new Set(items.filter(Boolean))];
@@ -172,8 +173,6 @@
     async function initFFmpeg() {
         ffmpegLoadAttempted = true;
         try {
-            showLoading('Initializing video engine...');
-
             const hasLibrary = await ensureFFmpegLibraryLoaded();
             if (!hasLibrary) {
                 throw new Error('FFmpeg library unavailable from configured CDNs');
@@ -186,15 +185,12 @@
             await ffmpeg.load({ coreURL, wasmURL });
             ffmpegLoaded = true;
             hideServerFallback();
-            hideLoading();
+            console.log('✓ FFmpeg ready in background');
         } catch (error) {
-            hideLoading();
+            console.error('FFmpeg background load failed:', error);
             ffmpegLoaded = false;
-            if (isLocalMode) {
-                showNotification('Video engine unavailable locally. Start a local web server or deploy the page to test the browser compressor.', 'error');
-            } else {
-                showNotification('Video engine unavailable in this browser. You can use server compression instead.', 'warning');
-                showServerFallback('Browser video engine unavailable. Use Server Compression (VPS) below.');
+            if (!isLocalMode) {
+                showServerFallback('Browser compression unavailable. Server fallback ready.');
             }
         }
     }
@@ -237,25 +233,42 @@
     compressAgainBtn.addEventListener('click', resetAll);
 
     async function handleCompressClick() {
+        if (!selectedFile) {
+            showNotification('Please select a video first', 'error');
+            return;
+        }
+
+        // If FFmpeg is already loaded, use it immediately
         if (ffmpegLoaded) {
             await compressVideo();
             return;
         }
 
-        if (!ffmpegLoadAttempted) {
-            await initFFmpeg();
+        // If FFmpeg is still loading, show a quick "preparing" message and wait
+        if (!ffmpegLoadAttempted || ffmpegLoadPromise) {
+            showNotification('Preparing browser engine... If this takes too long, using server fallback.', 'info');
+            
+            // Wait up to 10 seconds for FFmpeg to load
+            let waited = 0;
+            while (!ffmpegLoaded && waited < 10000) {
+                await new Promise(resolve => setTimeout(resolve, 500));
+                waited += 500;
+            }
+
             if (ffmpegLoaded) {
+                showNotification('Browser engine ready! Compressing...', 'success');
                 await compressVideo();
                 return;
             }
         }
 
+        // Fallback to server compression if FFmpeg not available
         if (isLocalMode) {
-            showNotification('Local testing mode does not allow server compression. Fix the browser engine first, or run the page from a local web server for a realistic test.', 'error');
+            showNotification('Local testing mode - server compression disabled. Use a real web server or browser compression.', 'warning');
             return;
         }
 
-        showNotification('Local video engine is unavailable. Using server compression.', 'info');
+        showNotification('Using server compression (browser engine not ready)...', 'info');
         await compressVideoOnServer();
     }
 
@@ -556,5 +569,8 @@
     });
 
     // Initialize
-    initFFmpeg();
+    // Start background loading of FFmpeg WITHOUT blocking the UI
+    if (!isLocalMode) {
+        ffmpegLoadPromise = initFFmpeg();
+    }
 })();
