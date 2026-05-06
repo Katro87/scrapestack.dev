@@ -1,0 +1,407 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    
+    <!-- Primary SEO Meta Tags -->
+    <title>Free Video Compressor | Compress Videos Online - No Watermark, 100% Private</title>
+    <meta name="title" content="Free Video Compressor - Reduce Video Size Without Quality Loss">
+    <meta name="description" content="Free online video compressor. Reduce MP4, MOV, AVI, MKV file sizes by up to 90% without losing quality. No upload, 100% private, no watermark. Compress videos directly in your browser.">
+    <meta name="keywords" content="video compressor, compress video, reduce video size, free video compressor, compress MP4, video optimizer, reduce video file size, online video compressor">
+    <meta name="author" content="ScrapeStack">
+    <meta name="robots" content="index, follow">
+    <meta name="theme-color" content="#667eea">
+    
+    <!-- Open Graph -->
+    <meta property="og:type" content="website">
+    <meta property="og:site_name" content="ScrapeStack">
+    <meta property="og:url" content="https://scrapestack.com/video-compressor/video-compressor.html">
+    <meta property="og:title" content="Free Video Compressor - Reduce Video Size Without Quality Loss">
+    <meta property="og:description" content="Compress videos directly in your browser. No uploads, 100% private, no watermark. Support for MP4, MOV, AVI, MKV and more.">
+    <meta property="og:image" content="https://scrapestack.com/image-compressor/images/og-image.png">
+    
+    <!-- Twitter -->
+    <meta property="twitter:card" content="summary_large_image">
+    <meta property="twitter:url" content="https://scrapestack.com/video-compressor/video-compressor.html">
+    <meta property="twitter:title" content="Free Video Compressor - Reduce Video Size Without Quality Loss">
+    <meta property="twitter:description" content="Compress videos directly in your browser. No uploads, 100% private, no watermark.">
+    
+    <!-- Canonical URL -->
+    <link rel="canonical" href="https://scrapestack.com/video-compressor/video-compressor.html">
+    
+    <!-- Favicon -->
+    <link rel="icon" type="image/x-icon" href="../images/favicon.png">
+    
+    <!-- CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="../styles/navbar.css">
+    <link rel="stylesheet" href="css/video-compressor.css">
+    
+    <!-- FFmpeg.js for video processing (primary + fallback CDN) -->
+    <script src="https://cdn.jsdelivr.net/npm/@ffmpeg/ffmpeg@0.12.10/dist/umd/ffmpeg.min.js"></script>
+    <script>
+        if (!window.FFmpegWASM) {
+            document.write('<script src="https://unpkg.com/@ffmpeg/ffmpeg@0.12.10/dist/umd/ffmpeg.min.js"><\\/script>');
+        }
+    </script>
+    
+    <!-- JSON-LD Structured Data -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "WebApplication",
+      "name": "ScrapeStack Video Compressor",
+      "url": "https://scrapestack.com/video-compressor/video-compressor.html",
+      "description": "Free online video compressor. Compress MP4, MOV, AVI, MKV videos without quality loss. 100% private, no watermark.",
+      "applicationCategory": "MultimediaApplication",
+      "operatingSystem": "All",
+      "offers": {
+        "@type": "Offer",
+        "price": "0",
+        "priceCurrency": "USD"
+      }
+    }
+    </script>
+</head>
+<body>
+    <script src="../components/navbar.js"></script>
+    
+    <!-- Main Container -->
+    <div class="video-compressor-container">
+        <!-- Hero Section -->
+        <section class="compressor-hero">
+            <div class="hero-content">
+                <h1>Free Video Compressor <span class="highlight">No Upload Required</span></h1>
+                <p class="hero-subtitle">Compress MP4, MOV, AVI, MKV videos by up to 90% without losing quality. 100% private - all processing happens in your browser.</p>
+                <div class="hero-features">
+                    <span><i class="fas fa-shield-alt"></i> 100% Private</span>
+                    <span><i class="fas fa-bolt"></i> Fast Processing</span>
+                    <span><i class="fas fa-video"></i> Multiple Formats</span>
+                    <span><i class="fas fa-watermark"></i> No Watermark</span>
+                </div>
+            </div>
+        </section>
+
+        <!-- Compressor Tool Section -->
+        <section class="compressor-tool">
+            <div class="tool-wrapper">
+                <!-- Upload Area -->
+                <div class="upload-area" id="uploadArea">
+                    <div class="upload-content">
+                        <div class="upload-icon">
+                            <i class="fas fa-cloud-upload-alt"></i>
+                        </div>
+                        <h3>Drop Your Video Here</h3>
+                        <p>or click to browse files</p>
+                        <p class="upload-formats">Supported formats: MP4, MOV, AVI, MKV, WEBM, FLV</p>
+                        <p class="upload-size">Maximum file size: 500MB</p>
+                        <input type="file" id="videoInput" accept="video/*" hidden>
+                        <button class="btn-browse" id="browseBtn">
+                            <i class="fas fa-folder-open"></i> Choose Video
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Processing Area -->
+                <div class="processing-area" id="processingArea" style="display: none;">
+                    <div class="video-preview">
+                        <video id="videoPreview" controls></video>
+                    </div>
+                    
+                    <div class="video-info" id="videoInfo">
+                        <div class="info-item">
+                            <span class="info-label">File Name:</span>
+                            <span class="info-value" id="fileName"></span>
+                        </div>
+                        <div class="info-item">
+                            <span class="info-label">Original Size:</span>
+                            <span class="info-value" id="fileSize"></span>
+                        </div>
+                        <div class="info-item">
+                            <span class="info-label">Duration:</span>
+                            <span class="info-value" id="duration"></span>
+                        </div>
+                        <div class="info-item">
+                            <span class="info-label">Resolution:</span>
+                            <span class="info-value" id="resolution"></span>
+                        </div>
+                    </div>
+
+                    <!-- Compression Settings -->
+                    <div class="compression-settings">
+                        <h4><i class="fas fa-sliders-h"></i> Compression Settings</h4>
+                        
+                        <div class="setting-group">
+                            <label>Compression Level</label>
+                            <div class="quality-slider">
+                                <input type="range" id="compressionLevel" min="1" max="100" value="70">
+                                <div class="quality-labels">
+                                    <span>Maximum Compression</span>
+                                    <span>Best Quality</span>
+                                </div>
+                                <div class="quality-value" id="qualityValue">70%</div>
+                            </div>
+                        </div>
+
+                        <div class="setting-group">
+                            <label>Output Format</label>
+                            <select id="outputFormat">
+                                <option value="mp4">MP4 (H.264)</option>
+                                <option value="webm">WebM (VP9)</option>
+                                <option value="mov">MOV</option>
+                                <option value="avi">AVI</option>
+                            </select>
+                        </div>
+
+                        <div class="setting-group">
+                            <label>Resolution</label>
+                            <select id="outputResolution">
+                                <option value="original">Original</option>
+                                <option value="1080p">1080p (1920x1080)</option>
+                                <option value="720p">720p (1280x720)</option>
+                                <option value="480p">480p (854x480)</option>
+                                <option value="360p">360p (640x360)</option>
+                            </select>
+                        </div>
+
+                        <div class="setting-group">
+                            <label>Frame Rate</label>
+                            <select id="frameRate">
+                                <option value="original">Original</option>
+                                <option value="30">30 fps</option>
+                                <option value="25">25 fps</option>
+                                <option value="24">24 fps</option>
+                                <option value="15">15 fps</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <!-- Action Buttons -->
+                    <div class="action-buttons">
+                        <button class="btn-compress" id="compressBtn">
+                            <i class="fas fa-compress-alt"></i> Compress Video
+                        </button>
+                        <button class="btn-compress" id="serverFallbackBtn" style="display: none;">
+                            <i class="fas fa-server"></i> Compress on Server (VPS)
+                        </button>
+                        <button class="btn-reset" id="resetBtn">
+                            <i class="fas fa-redo"></i> New Video
+                        </button>
+                    </div>
+                    <p id="engineStatus" style="display: none;"></p>
+
+                    <!-- Progress Bar -->
+                    <div class="progress-container" id="progressContainer" style="display: none;">
+                        <div class="progress-info">
+                            <span id="progressText">Compressing...</span>
+                            <span id="progressPercent">0%</span>
+                        </div>
+                        <div class="progress-bar">
+                            <div class="progress-fill" id="progressFill"></div>
+                        </div>
+                        <p class="progress-note">Large videos may take several minutes. Please don't close this page.</p>
+                    </div>
+
+                    <!-- Result Section -->
+                    <div class="result-section" id="resultSection" style="display: none;">
+                        <div class="result-card">
+                            <i class="fas fa-check-circle result-icon"></i>
+                            <h4>Compression Complete!</h4>
+                            <div class="result-stats">
+                                <div class="result-stat">
+                                    <span class="stat-label">Original Size</span>
+                                    <span class="stat-value" id="originalSizeResult"></span>
+                                </div>
+                                <div class="result-stat">
+                                    <span class="stat-label">Compressed Size</span>
+                                    <span class="stat-value" id="compressedSizeResult"></span>
+                                </div>
+                                <div class="result-stat">
+                                    <span class="stat-label">Saved</span>
+                                    <span class="stat-value saved" id="spaceSaved"></span>
+                                </div>
+                            </div>
+                            <div class="result-actions">
+                                <button class="btn-download" id="downloadBtn">
+                                    <i class="fas fa-download"></i> Download Compressed Video
+                                </button>
+                                <button class="btn-compress-again" id="compressAgainBtn">
+                                    <i class="fas fa-compress-alt"></i> Compress Another
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Features Section -->
+        <section class="features-section">
+            <h2><i class="fas fa-star"></i> Why Use Our Video Compressor?</h2>
+            <div class="features-grid">
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-lock"></i>
+                    </div>
+                    <h3>100% Private</h3>
+                    <p>All processing happens locally in your browser. Your videos never leave your device.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-bolt"></i>
+                    </div>
+                    <h3>Fast Processing</h3>
+                    <p>Optimized algorithms using FFmpeg for maximum speed and efficiency.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-sliders-h"></i>
+                    </div>
+                    <h3>Full Control</h3>
+                    <p>Adjust compression level, resolution, format, and frame rate to your needs.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-watermark"></i>
+                    </div>
+                    <h3>No Watermark</h3>
+                    <p>Your compressed videos remain clean and professional, absolutely no watermarks.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-file-video"></i>
+                    </div>
+                    <h3>Multiple Formats</h3>
+                    <p>Support for MP4, MOV, AVI, MKV, WEBM, FLV, and more video formats.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-infinity"></i>
+                    </div>
+                    <h3>Unlimited Use</h3>
+                    <p>Compress as many videos as you want. No limits, no premium tiers, completely free.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- How It Works Section -->
+        <section class="how-it-works">
+            <h2><i class="fas fa-info-circle"></i> How to Compress Videos</h2>
+            <div class="steps-grid">
+                <div class="step">
+                    <div class="step-number">1</div>
+                    <h4>Choose Your Video</h4>
+                    <p>Select or drag & drop your video file. Supports MP4, MOV, AVI, and more.</p>
+                </div>
+                <div class="step">
+                    <div class="step-number">2</div>
+                    <h4>Adjust Settings</h4>
+                    <p>Choose compression level, output format, resolution, and frame rate.</p>
+                </div>
+                <div class="step">
+                    <div class="step-number">3</div>
+                    <h4>Compress</h4>
+                    <p>Click compress and let our tool optimize your video while maintaining quality.</p>
+                </div>
+                <div class="step">
+                    <div class="step-number">4</div>
+                    <h4>Download</h4>
+                    <p>Download your compressed video instantly. No waiting, no uploads needed.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- FAQ Section -->
+        <section class="faq-section">
+            <h2><i class="fas fa-question-circle"></i> Frequently Asked Questions</h2>
+            <div class="faq-grid">
+                <div class="faq-item">
+                    <div class="faq-question">
+                        <span>Is the video compressor really free?</span>
+                        <i class="fas fa-chevron-down"></i>
+                    </div>
+                    <div class="faq-answer">
+                        Yes! Our video compressor is completely free. No premium versions, no hidden costs, no credit card required. We believe essential tools should be accessible to everyone.
+                    </div>
+                </div>
+                <div class="faq-item">
+                    <div class="faq-question">
+                        <span>Are my videos uploaded to a server?</span>
+                        <i class="fas fa-chevron-down"></i>
+                    </div>
+                    <div class="faq-answer">
+                        No! All video compression happens directly in your browser using WebAssembly technology. Your videos never leave your device, ensuring complete privacy and security.
+                    </div>
+                </div>
+                <div class="faq-item">
+                    <div class="faq-question">
+                        <span>What video formats are supported?</span>
+                        <i class="fas fa-chevron-down"></i>
+                    </div>
+                    <div class="faq-answer">
+                        We support MP4, MOV, AVI, MKV, WEBM, FLV, and many other common video formats. You can also choose your preferred output format after compression.
+                    </div>
+                </div>
+                <div class="faq-item">
+                    <div class="faq-question">
+                        <span>Will compression reduce video quality?</span>
+                        <i class="fas fa-chevron-down"></i>
+                    </div>
+                    <div class="faq-answer">
+                        You can control the balance between file size and quality using our compression slider. Higher compression levels significantly reduce file size while maintaining acceptable quality.
+                    </div>
+                </div>
+                <div class="faq-item">
+                    <div class="faq-question">
+                        <span>Is there a file size limit?</span>
+                        <i class="fas fa-chevron-down"></i>
+                    </div>
+                    <div class="faq-answer">
+                        We recommend videos up to 500MB for optimal browser performance. For larger videos, consider using our server-side processing option available on DigitalOcean.
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <!-- Footer -->
+    <footer class="site-footer">
+        <div class="footer-content">
+            <div class="footer-section">
+                <h4>ScrapeStack</h4>
+                <p>Free professional tools for developers and creators. Compress images, videos, convert documents — all 100% free.</p>
+            </div>
+            <div class="footer-section">
+                <h4>Free Tools</h4>
+                <ul>
+                    <li><a href="../image-compressor/image_compressor.html">Image Compressor</a></li>
+                    <li><a href="video-compressor.html">Video Compressor</a></li>
+                    <li><a href="../Doc-Converter/public/doc-converter.html">Document Converter</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h4>Learn</h4>
+                <ul>
+                    <li><a href="../what-is-scrapestack.html">What is ScrapeStack?</a></li>
+                    <li><a href="../how-to-scrape-a-website.html">How to Scrape a Website</a></li>
+                    <li><a href="../scrapestack-api-details.html">API Documentation</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h4>Legal</h4>
+                <ul>
+                    <li><a href="#">Privacy Policy</a></li>
+                    <li><a href="#">Terms of Service</a></li>
+                    <li><a href="#">About Us</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2025 ScrapeStack. All rights reserved. Free video compressor, image compressor, and document converter tools.</p>
+        </div>
+    </footer>
+
+    <script src="js/video-compressor.js"></script>
+</body>
+</html>

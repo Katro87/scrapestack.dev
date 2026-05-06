@@ -10,6 +10,7 @@ class NavbarComponent {
         const path = window.location.pathname.toLowerCase();
         if (path.includes('image-compressor')) return 'image-compressor';
         if (path.includes('doc-converter')) return 'doc-converter';
+        if (path.includes('video-compressor')) return 'video-compressor';
         if (path.includes('what-is-scrapestack')) return 'what-is-scrapestack';
         if (path.includes('how-to-scrape-a-website')) return 'how-to-scrape';
         if (path.includes('scrapestack-api-details')) return 'api-details';
@@ -20,6 +21,7 @@ class NavbarComponent {
         const homeLink = this.basePath + 'index.html';
         const imgCompressorLink = this.basePath + 'image-compressor/image_compressor.html';
         const docConverterLink = this.basePath + 'Doc-Converter/public/doc-converter.html';
+        const videoCompressorLink = this.basePath + 'video-compressor/video-compressor.html';
         const whatIsScrapestackLink = this.basePath + 'scrapestack-alternative/what-is-scrapestack.html';
         const howToScrapeLink = this.basePath + 'scrapestack-alternative/how-to-scrape-a-website.html';
         const apiDetailsLink = this.basePath + 'scrapestack-alternative/scrapestack-api-details.html';
@@ -37,6 +39,7 @@ class NavbarComponent {
                             <li><a href="${homeLink}" target="_blank" rel="noopener noreferrer" class="nav-link ${this.currentPage === 'home' ? 'active' : ''}">Home</a></li>
                             <li><a href="${imgCompressorLink}" target="_blank" rel="noopener noreferrer" class="nav-link ${this.currentPage === 'image-compressor' ? 'active' : ''}">Image Compressor</a></li>
                             <li><a href="${docConverterLink}" target="_blank" rel="noopener noreferrer" class="nav-link ${this.currentPage === 'doc-converter' ? 'active' : ''}">Doc Converter</a></li>
+                            <li><a href="${videoCompressorLink}" target="_blank" rel="noopener noreferrer" class="nav-link ${this.currentPage === 'video-compressor' ? 'active' : ''}">Video Compressor</a></li>
                             <li><a href="${whatIsScrapestackLink}" target="_blank" rel="noopener noreferrer" class="nav-link ${this.currentPage === 'what-is-scrapestack' ? 'active' : ''}">What is ScrapeStack?</a></li>
                             <li><a href="${howToScrapeLink}" target="_blank" rel="noopener noreferrer" class="nav-link ${this.currentPage === 'how-to-scrape' ? 'active' : ''}">How to Scrape</a></li>
                             <li><a href="${apiDetailsLink}" target="_blank" rel="noopener noreferrer" class="nav-link ${this.currentPage === 'api-details' ? 'active' : ''}">API Details</a></li>
@@ -135,6 +138,10 @@ function getNavbarBasePath() {
     }
 
     if (path.includes('/image-compressor/')) {
+        return '../';
+    }
+
+    if (path.includes('/video-compressor/')) {
         return '../';
     }
 
