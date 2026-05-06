@@ -32,8 +32,8 @@
     const resultSection = document.getElementById('resultSection');
     const downloadBtn = document.getElementById('downloadBtn');
     const compressAgainBtn = document.getElementById('compressAgainBtn');
-    const serverFallbackBtn = document.getElementById('serverFallbackBtn');
-    const engineStatus = document.getElementById('engineStatus');
+    const serverFallbackBtn = null; // Removed from UI
+    const engineStatus = null; // Removed from UI
     const compressionLevel = document.getElementById('compressionLevel');
     const qualityValue = document.getElementById('qualityValue');
 
@@ -106,26 +106,11 @@
     }
 
     function showServerFallback(message) {
-        if (isLocalMode) {
-            return;
-        }
-        if (engineStatus) {
-            engineStatus.style.display = 'block';
-            engineStatus.textContent = message;
-        }
-        if (serverFallbackBtn) {
-            serverFallbackBtn.style.display = 'inline-flex';
-        }
+        // Silent fallback - don't show any message to user
     }
 
     function hideServerFallback() {
-        if (engineStatus) {
-            engineStatus.style.display = 'none';
-            engineStatus.textContent = '';
-        }
-        if (serverFallbackBtn) {
-            serverFallbackBtn.style.display = 'none';
-        }
+        // Silent fallback - no UI changes
     }
 
     // Custom notification
@@ -226,9 +211,6 @@
     });
 
     compressBtn.addEventListener('click', handleCompressClick);
-    if (serverFallbackBtn) {
-        serverFallbackBtn.addEventListener('click', compressVideoOnServer);
-    }
     resetBtn.addEventListener('click', resetAll);
     compressAgainBtn.addEventListener('click', resetAll);
 
@@ -240,36 +222,36 @@
 
         // If FFmpeg is already loaded, use it immediately
         if (ffmpegLoaded) {
+            showNotification('Compressing with browser engine...', 'info');
             await compressVideo();
             return;
         }
 
-        // If FFmpeg is still loading, show a quick "preparing" message and wait
-        if (!ffmpegLoadAttempted || ffmpegLoadPromise) {
-            showNotification('Preparing browser engine... If this takes too long, using server fallback.', 'info');
-            
-            // Wait up to 10 seconds for FFmpeg to load
-            let waited = 0;
-            while (!ffmpegLoaded && waited < 10000) {
-                await new Promise(resolve => setTimeout(resolve, 500));
-                waited += 500;
-            }
+        // Show quick message
+        showNotification('Preparing compression...', 'info');
 
-            if (ffmpegLoaded) {
-                showNotification('Browser engine ready! Compressing...', 'success');
-                await compressVideo();
-                return;
-            }
+        // Wait up to 5 seconds for FFmpeg to load in background
+        let waited = 0;
+        while (!ffmpegLoaded && waited < 5000) {
+            await new Promise(resolve => setTimeout(resolve, 300));
+            waited += 300;
         }
 
-        // Fallback to server compression if FFmpeg not available
-        if (isLocalMode) {
-            showNotification('Local testing mode - server compression disabled. Use a real web server or browser compression.', 'warning');
+        // If FFmpeg loaded, use browser compression
+        if (ffmpegLoaded) {
+            await compressVideo();
             return;
         }
 
-        showNotification('Using server compression (browser engine not ready)...', 'info');
-        await compressVideoOnServer();
+        // Otherwise, silently use server compression
+        if (!isLocalMode) {
+            showNotification('Using server compression...', 'info');
+            await compressVideoOnServer();
+            return;
+        }
+
+        // Local mode can't reach server
+        showNotification('Deploy to a live server to compress videos.', 'error');
     }
 
     function handleFile(file) {
@@ -288,6 +270,7 @@
 
         selectedFile = file;
         displayVideoInfo(file);
+    }
     }
 
     function displayVideoInfo(file) {
@@ -385,8 +368,8 @@
         } catch (err) {
             console.error(err);
             showNotification('Compression failed. Try a different format or smaller video.', 'error');
-            progressContainer.style.display = 'none';
-        } finally {
+            progressor) {
+            console.error(erro
             compressBtn.disabled = false;
         }
     }
@@ -467,8 +450,8 @@
                         resultSection.style.display = 'block';
                     }, 500);
 
-                    showNotification('Video compressed successfully using server fallback.', 'success');
-                    showServerFallback('Compression completed on VPS server. Output format is MP4.');
+                    showNotification('Video compressed successfully!', 'success');
+                    showServerFallback('');
                     return;
                 } catch (endpointError) {
                     lastError = endpointError.message || lastError;
