@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://leadgateway.tech/sitemap.xml
+Sitemap: https://scrapestack.dev/sitemap.xml

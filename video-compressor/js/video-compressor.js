@@ -1,16 +1,5 @@
 (async function () {
-    const FFMPEG_VERSION = '0.12.6';
-    const FFMPEG_SCRIPT_URL = `https://unpkg.com/@ffmpeg/ffmpeg@${FFMPEG_VERSION}/dist/umd/ffmpeg.min.js`;
-    const FFMPEG_ASSET_URLS = [
-        {
-            coreURL: `https://unpkg.com/@ffmpeg/core@${FFMPEG_VERSION}/dist/umd/ffmpeg-core.js`,
-            wasmURL: `https://unpkg.com/@ffmpeg/core@${FFMPEG_VERSION}/dist/umd/ffmpeg-core.wasm`,
-            workerURL: `https://unpkg.com/@ffmpeg/core@${FFMPEG_VERSION}/dist/umd/ffmpeg-core.worker.js`
-        }
-    ];
-
     let ffmpeg = null;
-    let ffmpegReadyPromise = null;
     let selectedFile = null;
     let compressedBlob = null;
     let compressedOutputExt = 'mp4';
@@ -86,58 +75,57 @@
         return `${(bytes / Math.pow(1024, i)).toFixed(2)} ${sizes[i]}`;
     }
 
-    function loadScript(url) {
-        return new Promise((resolve, reject) => {
-            const existing = Array.from(document.scripts).find((script) => script.src === url);
-            if (existing) {
-                resolve();
-                return;
+    async function initFFmpeg() {
+        try {
+            if (typeof FFmpeg === "undefined") {
+                throw new Error("FFmpeg CDN failed to load");
             }
 
-            const script = document.createElement('script');
-            script.src = url;
-            script.async = true;
-            script.onload = () => resolve();
-            script.onerror = () => reject(new Error('Script load failed'));
-            document.head.appendChild(script);
-        });
-    }
+            const { createFFmpeg, fetchFile } = FFmpeg;
 
-    async function toBlobURL(url, mimeType) {
-        const response = await fetch(url, { mode: 'cors' });
-        if (!response.ok) {
-            throw new Error('Asset load failed');
+            ffmpeg = createFFmpeg({
+                log: true
+            });
+
+            await ffmpeg.load();
+
+            console.log("FFmpeg loaded successfully");
+            return true;
+
+        } catch (err) {
+            console.error(err);
+            throw new Error("Compression engine failed to load");
         }
-        const blob = await response.blob();
-        return URL.createObjectURL(new Blob([blob], { type: mimeType }));
     }
 
     async function ensureFFmpegReady() {
-        if (ffmpeg) return ffmpeg;
-        if (ffmpegReadyPromise) return ffmpegReadyPromise;
-
-        ffmpegReadyPromise = (async () => {
-            if (!(window.FFmpegWASM && window.FFmpegWASM.FFmpeg)) {
-                await loadScript(FFMPEG_SCRIPT_URL);
-            }
-
-            const { FFmpeg } = window.FFmpegWASM;
-            const instance = new FFmpeg();
-            const assetSet = FFMPEG_ASSET_URLS[0];
-            const coreURL = await toBlobURL(assetSet.coreURL, 'text/javascript');
-            const wasmURL = await toBlobURL(assetSet.wasmURL, 'application/wasm');
-            const workerURL = await toBlobURL(assetSet.workerURL, 'text/javascript');
-
-            await instance.load({ coreURL, wasmURL, workerURL });
-            ffmpeg = instance;
-            return instance;
-        })();
-
-        try {
-            return await ffmpegReadyPromise;
-        } finally {
-            ffmpegReadyPromise = null;
+        if (!ffmpeg) {
+            await initFFmpeg();
         }
+        if (!ffmpeg.isLoaded()) {
+            await ffmpeg.load();
+        }
+    }
+
+    async function compressVideoFile(file, options) {
+        await ensureFFmpegReady();
+
+        const { fetchFile } = FFmpeg;
+
+        ffmpeg.FS('writeFile', 'input.mp4', await fetchFile(file));
+
+        await ffmpeg.run(
+            '-i', 'input.mp4',
+            '-c:v', 'libx264',
+            '-crf', options.quality || '28',
+            '-preset', 'fast',
+            '-c:a', 'aac',
+            '-b:a', '128k',
+            'output.mp4'
+        );
+
+        const data = ffmpeg.FS('readFile', 'output.mp4');
+        return new Blob([data.buffer], { type: 'video/mp4' });
     }
 
     function handleFile(file) {
@@ -190,56 +178,18 @@
 
         try {
             showLoading('Initializing...');
-            const engine = await ensureFFmpegReady();
-            if (!engine) throw new Error('engine');
+            await ensureFFmpegReady();
             hideLoading();
 
             updateProgress(5, 'Compressing...');
 
             const quality = parseInt(compressionLevel.value, 10);
-            const format = document.getElementById('outputFormat').value;
-            const resolution = document.getElementById('outputResolution').value;
-            const fps = document.getElementById('frameRate').value;
-            compressedOutputExt = format;
+            compressedOutputExt = 'mp4';
 
-            const inputExt = (selectedFile.name.split('.').pop() || 'mp4').toLowerCase();
-            const inputName = `input.${inputExt}`;
-            const outputName = `output.${format}`;
-            const data = await selectedFile.arrayBuffer();
-
-            await engine.writeFile(inputName, new Uint8Array(data));
-
-            const args = ['-i', inputName, '-c:v', 'libx264', '-preset', 'medium'];
-            const crf = Math.round(51 - (quality / 100) * 51);
-            args.push('-crf', String(Math.max(0, Math.min(51, crf))));
-
-            const resMap = {
-                '1080p': '1920:1080',
-                '720p': '1280:720',
-                '480p': '854:480',
-                '360p': '640:360'
-            };
-
-            if (resMap[resolution]) {
-                args.push('-vf', `scale=${resMap[resolution]}`);
-            }
-
-            if (fps !== 'original') {
-                args.push('-r', fps);
-            }
-
-            args.push('-c:a', 'aac', '-b:a', '128k', '-y', outputName);
-
-            engine.on('progress', ({ progress }) => {
-                const pct = Math.max(10, Math.min(95, Math.round(10 + progress * 85)));
-                updateProgress(pct, 'Compressing...');
-            });
-
-            await engine.exec(args);
+            const crfQuality = String(Math.max(0, Math.min(51, Math.round(51 - (quality / 100) * 51))));
+            compressedBlob = await compressVideoFile(selectedFile, { quality: crfQuality });
 
             updateProgress(98, 'Compressing...');
-            const outputData = await engine.readFile(outputName);
-            compressedBlob = new Blob([outputData.buffer], { type: `video/${format}` });
 
             document.getElementById('originalSizeResult').textContent = formatSize(selectedFile.size);
             document.getElementById('compressedSizeResult').textContent = formatSize(compressedBlob.size);
@@ -255,10 +205,11 @@
             }, 300);
 
             showNotification('Complete!', 'success');
-        } catch (_) {
+        } catch (error) {
+            console.error('Compression failed:', error);
             hideLoading();
             progressContainer.style.display = 'none';
-            showNotification('Compression failed. Please try again.', 'error');
+            showNotification('Compression engine failed. Please reload.', 'error');
         } finally {
             compressBtn.disabled = false;
         }
@@ -364,5 +315,8 @@
         });
     });
 
-    ensureFFmpegReady().catch(() => {});
+    initFFmpeg().catch((error) => {
+        console.error('FFmpeg initialization failed:', error);
+        showNotification('Compression engine failed. Please reload.', 'error');
+    });
 })();

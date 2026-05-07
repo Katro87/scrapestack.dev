@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval' blob:; worker-src 'self' blob:; connect-src 'self' blob: http://206.189.85.232:3000; img-src 'self' data: blob:; media-src 'self' blob:; style-src 'self' 'unsafe-inline' https://cdnjs.cloudflare.com; font-src 'self' data: https://cdnjs.cloudflare.com; object-src 'none';">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
     <meta name="description" content="Complete ScrapeStack API documentation: endpoints, parameters, response structure, rate limits, and technical details for developers.">
@@ -10,18 +11,18 @@
         <meta name="theme-color" content="#667eea">
         <meta name="referrer" content="strict-origin-when-cross-origin">
     <title>ScrapeStack API Documentation | Technical Details</title>
-        <link rel="canonical" href="https://scrapestack.com/scrapestack-alternative/scrapestack-api-details.html">
+        <link rel="canonical" href="https://scrapestack.dev/scrapestack-alternative/scrapestack-api-details.html">
         <meta property="og:type" content="article">
         <meta property="og:site_name" content="ScrapeStack">
-        <meta property="og:url" content="https://scrapestack.com/scrapestack-alternative/scrapestack-api-details.html">
+        <meta property="og:url" content="https://scrapestack.dev/scrapestack-alternative/scrapestack-api-details.html">
         <meta property="og:title" content="ScrapeStack API Documentation | Technical Details">
         <meta property="og:description" content="Explore API endpoints, parameters, response structure, and implementation examples for ScrapeStack.">
-        <meta property="og:image" content="https://scrapestack.com/image-compressor/images/og-image.png">
+        <meta property="og:image" content="https://scrapestack.dev/image-compressor/images/og-image.png">
         <meta property="twitter:card" content="summary_large_image">
-        <meta property="twitter:url" content="https://scrapestack.com/scrapestack-alternative/scrapestack-api-details.html">
+        <meta property="twitter:url" content="https://scrapestack.dev/scrapestack-alternative/scrapestack-api-details.html">
         <meta property="twitter:title" content="ScrapeStack API Documentation | Technical Details">
         <meta property="twitter:description" content="Explore API endpoints, parameters, response structure, and implementation examples for ScrapeStack.">
-        <meta property="twitter:image" content="https://scrapestack.com/image-compressor/images/og-image.png">
+        <meta property="twitter:image" content="https://scrapestack.dev/image-compressor/images/og-image.png">
     <link rel="icon" type="image/x-icon" href="../images/favicon.png">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="stylesheet" href="../styles/navbar.css">
@@ -39,7 +40,7 @@
                 "@type": "Organization",
                 "name": "ScrapeStack"
             },
-            "mainEntityOfPage": "https://scrapestack.com/scrapestack-alternative/scrapestack-api-details.html"
+            "mainEntityOfPage": "https://scrapestack.dev/scrapestack-alternative/scrapestack-api-details.html"
         }
         </script>
         <script type="application/ld+json">
@@ -51,13 +52,13 @@
                     "@type": "ListItem",
                     "position": 1,
                     "name": "Home",
-                    "item": "https://scrapestack.com/"
+                    "item": "https://scrapestack.dev/"
                 },
                 {
                     "@type": "ListItem",
                     "position": 2,
                     "name": "API Documentation",
-                    "item": "https://scrapestack.com/scrapestack-alternative/scrapestack-api-details.html"
+                    "item": "https://scrapestack.dev/scrapestack-alternative/scrapestack-api-details.html"
                 }
             ]
         }
@@ -301,7 +302,7 @@
                 <h2>Overview</h2>
                 <p>ScrapeStack provides a simple REST API that fetches and renders web pages, returning clean HTML or JSON data. It handles JavaScript rendering, proxy rotation, and anti-bot measures automatically.</p>
                 <div class="api-endpoint">
-                    <strong>Base URL:</strong> https://api.scrapestack.com
+                    <strong>Base URL:</strong> https://api.scrapestack.dev
                 </div>
             </div>
 
@@ -329,7 +330,7 @@
             <div class="section" id="endpoint">
                 <h2>API Endpoint</h2>
                 <div class="api-endpoint">
-                    GET https://api.scrapestack.com/scrape?url={target_url}&render={true/false}
+                    GET https://api.scrapestack.dev/scrape?url={target_url}&render={true/false}
                 </div>
             </div>
 
@@ -418,7 +419,7 @@
                 
                 <h3>cURL</h3>
                 <div class="code-block" style="background: #1a202c; color: #e2e8f0; padding: 16px; border-radius: 8px;">
-curl -X GET "https://api.scrapestack.com/scrape?url=https://example.com&apikey=YOUR_KEY"
+curl -X GET "https://api.scrapestack.dev/scrape?url=https://example.com&apikey=YOUR_KEY"
                 </div>
 
                 <h3>JavaScript (Node.js)</h3>
@@ -426,7 +427,7 @@ curl -X GET "https://api.scrapestack.com/scrape?url=https://example.com&apikey=Y
 const fetch = require('node-fetch');
 
 const response = await fetch(
-  'https://api.scrapestack.com/scrape?url=https://example.com&apikey=YOUR_KEY'
+  'https://api.scrapestack.dev/scrape?url=https://example.com&apikey=YOUR_KEY'
 );
 const data = await response.json();
 console.log(data.html);
@@ -437,7 +438,7 @@ console.log(data.html);
 import requests
 
 response = requests.get(
-    'https://api.scrapestack.com/scrape',
+    'https://api.scrapestack.dev/scrape',
     params={'url': 'https://example.com', 'apikey': 'YOUR_KEY'}
 )
 data = response.json()

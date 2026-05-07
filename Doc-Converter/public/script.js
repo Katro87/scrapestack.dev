@@ -11,6 +11,10 @@ const convertBtn = document.getElementById('convertBtn');
 // API Base URL for VPS backend
 const API_BASE_URL = 'http://206.189.85.232:3000';
 
+if (window.location.protocol === 'file:') {
+    console.error('ScrapeStack doc converter requires a local web server. Open it via http://localhost instead of file://.');
+}
+
 let selectedFile = null;
 function setSelectedFile(file) {
     // Warn for large files
@@ -70,38 +74,48 @@ async function convertFile(mode, file) {
     
     // Step 1: Uploading
     updateLoadingStep(1);
-    
-    const response = await fetch(endpoint, {
-        method: 'POST',
-        body: formData,
-        signal: AbortSignal.timeout(600000) // Increased to 10 minutes
-    });
-    
-    // Step 2: Processing (LibreOffice)
-    updateLoadingStep(2);
-    
-    if (!response.ok) {
-        throw new Error(`Server error (${response.status})`);
+
+    try {
+        const response = await fetch(endpoint, {
+            method: 'POST',
+            body: formData,
+            signal: AbortSignal.timeout(600000) // Increased to 10 minutes
+        });
+
+        // Step 2: Processing (LibreOffice)
+        updateLoadingStep(2);
+
+        if (!response.ok) {
+            let message = `Server error (${response.status})`;
+            try {
+                const payload = await response.json();
+                message = payload.error || message;
+            } catch (_) {}
+            throw new Error(message);
+        }
+
+        // Step 3: Preparing download
+        updateLoadingStep(3);
+
+        const blob = await response.blob();
+
+        // Convert blob to base64
+        return new Promise((resolve, reject) => {
+            const reader = new FileReader();
+            reader.onloadend = () => {
+                resolve({
+                    fileData: reader.result,
+                    contentType: blob.type,
+                    size: blob.size
+                });
+            };
+            reader.onerror = () => reject(new Error('Failed to process file'));
+            reader.readAsDataURL(blob);
+        });
+    } catch (error) {
+        console.error('Document conversion failed:', error);
+        throw error;
     }
-    
-    // Step 3: Preparing download
-    updateLoadingStep(3);
-    
-    const blob = await response.blob();
-    
-    // Convert blob to base64
-    return new Promise((resolve, reject) => {
-        const reader = new FileReader();
-        reader.onloadend = () => {
-            resolve({
-                fileData: reader.result,
-                contentType: blob.type,
-                size: blob.size
-            });
-        };
-        reader.onerror = () => reject(new Error('Failed to process file'));
-        reader.readAsDataURL(blob);
-    });
 }
 const supportedOutputs = {
     pdf: [],

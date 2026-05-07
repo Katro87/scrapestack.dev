@@ -3,6 +3,7 @@
 <head>
     <meta http-equiv="Cross-Origin-Opener-Policy" content="same-origin">
     <meta http-equiv="Cross-Origin-Embedder-Policy" content="require-corp">
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval' blob: https://cdnjs.cloudflare.com https://cdn.jsdelivr.net; worker-src 'self' blob:; connect-src 'self' blob: https://cdn.jsdelivr.net; img-src 'self' data: blob:; media-src 'self' blob:; style-src 'self' 'unsafe-inline' https://cdnjs.cloudflare.com; font-src 'self' data: https://cdnjs.cloudflare.com; object-src 'none';">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
     
@@ -18,19 +19,19 @@
     <!-- Open Graph -->
     <meta property="og:type" content="website">
     <meta property="og:site_name" content="ScrapeStack">
-    <meta property="og:url" content="https://scrapestack.com/video-compressor/video-compressor.html">
+    <meta property="og:url" content="https://scrapestack.dev/video-compressor/video-compressor.html">
     <meta property="og:title" content="Free Video Compressor - Reduce Video Size Without Quality Loss">
     <meta property="og:description" content="Compress videos directly in your browser. No uploads, 100% private, no watermark. Support for MP4, MOV, AVI, MKV and more.">
-    <meta property="og:image" content="https://scrapestack.com/image-compressor/images/og-image.png">
+    <meta property="og:image" content="https://scrapestack.dev/image-compressor/images/og-image.png">
     
     <!-- Twitter -->
     <meta property="twitter:card" content="summary_large_image">
-    <meta property="twitter:url" content="https://scrapestack.com/video-compressor/video-compressor.html">
+    <meta property="twitter:url" content="https://scrapestack.dev/video-compressor/video-compressor.html">
     <meta property="twitter:title" content="Free Video Compressor - Reduce Video Size Without Quality Loss">
     <meta property="twitter:description" content="Compress videos directly in your browser. No uploads, 100% private, no watermark.">
     
     <!-- Canonical URL -->
-    <link rel="canonical" href="https://scrapestack.com/video-compressor/video-compressor.html">
+    <link rel="canonical" href="https://scrapestack.dev/video-compressor/video-compressor.html">
     
     <!-- Favicon -->
     <link rel="icon" type="image/x-icon" href="../images/favicon.png">
@@ -40,9 +41,7 @@
     <link rel="stylesheet" href="../styles/navbar.css">
     <link rel="stylesheet" href="css/video-compressor.css">
 
-    <!-- FFmpeg.js for browser-only compression -->
-    <script src="https://unpkg.com/@ffmpeg/core@0.12.6/dist/umd/ffmpeg-core.js"></script>
-    <script src="https://unpkg.com/@ffmpeg/ffmpeg@0.12.6/dist/umd/ffmpeg.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@ffmpeg/ffmpeg@0.12.10/dist/umd/ffmpeg.min.js"></script>
     
     <!-- JSON-LD Structured Data -->
     <script type="application/ld+json">
@@ -50,7 +49,7 @@
       "@context": "https://schema.org",
       "@type": "WebApplication",
       "name": "ScrapeStack Video Compressor",
-      "url": "https://scrapestack.com/video-compressor/video-compressor.html",
+      "url": "https://scrapestack.dev/video-compressor/video-compressor.html",
       "description": "Free online video compressor. Compress MP4, MOV, AVI, MKV videos without quality loss. 100% private, no watermark.",
       "applicationCategory": "MultimediaApplication",
       "operatingSystem": "All",
@@ -396,6 +395,6 @@
         </div>
     </footer>
 
-    <script src="js/video-compressor.js?v=20260506"></script>
+    <script src="js/video-compressor.js?v=20260507"></script>
 </body>
 </html>
