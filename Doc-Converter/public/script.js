@@ -8,8 +8,8 @@ const outputFormat = document.getElementById('outputFormat');
 const statusMsg = document.getElementById('statusMsg');
 const convertBtn = document.getElementById('convertBtn');
 
-// API Base URL for VPS backend
-const API_BASE_URL = window.location.origin;
+// API Base URL - use relative paths so nginx can proxy /convert/ to backend
+const API_BASE_URL = '';
 
 if (window.location.protocol === 'file:') {
     console.error('ScrapeStack doc converter requires a local web server. Open it via http://localhost instead of file://.');

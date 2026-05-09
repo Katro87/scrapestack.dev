@@ -2,7 +2,6 @@ const express = require('express');
 const multer = require('multer');
 const { exec } = require('child_process');
 const fs = require('fs');
-const os = require('os');
 const path = require('path');
 const crypto = require('crypto');
 const rateLimit = require('express-rate-limit');
@@ -10,7 +9,7 @@ const cors = require('cors');
 const { PDFDocument } = require('pdf-lib');
 
 const app = express();
-const PORT = process.env.PORT || 3000; // Changed to 3000
+const PORT = process.env.PORT || 3000; // Node will listen on localhost:3000
 
 // Rate limiting (protect from abuse)
 const limiter = rateLimit({
@@ -309,8 +308,8 @@ app.use((req, res, next) => {
   next();
 });
 
-app.listen(PORT, () => {
-  console.log(`✅ Server running on port ${PORT}`);
+app.listen(PORT, '127.0.0.1', () => {
+  console.log(`✅ Node server running on http://127.0.0.1:${PORT}`);
   console.log(`📁 Upload directory: ${uploadDir}`);
   console.log(`📄 Output directory: ${outputDir}`);
 });
