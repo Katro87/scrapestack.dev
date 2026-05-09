@@ -9,7 +9,7 @@ const statusMsg = document.getElementById('statusMsg');
 const convertBtn = document.getElementById('convertBtn');
 
 // API Base URL for VPS backend
-const API_BASE_URL = 'http://206.189.85.232:3000';
+const API_BASE_URL = window.location.origin;
 
 if (window.location.protocol === 'file:') {
     console.error('ScrapeStack doc converter requires a local web server. Open it via http://localhost instead of file://.');
