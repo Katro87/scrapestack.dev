@@ -1,4 +1,5 @@
 // components/navbar.js
+const SITE_BASE_URL = 'https://scrapestack.dev';
 class NavbarComponent {
     constructor(basePath = './') {
         this.basePath = basePath;
@@ -18,31 +19,31 @@ class NavbarComponent {
     }
 
     render() {
-        const homeLink = this.basePath + 'index.html';
-        const imgCompressorLink = this.basePath + 'image-compressor/image_compressor.html';
-        const docConverterLink = this.basePath + 'Doc-Converter/public/doc-converter.html';
-        const videoCompressorLink = this.basePath + 'video-compressor/video-compressor.html';
-        const whatIsScrapestackLink = this.basePath + 'scrapestack-alternative/what-is-scrapestack.html';
-        const howToScrapeLink = this.basePath + 'scrapestack-alternative/how-to-scrape-a-website.html';
-        const apiDetailsLink = this.basePath + 'scrapestack-alternative/scrapestack-api-details.html';
+        const homeLink = `${SITE_BASE_URL}/`;
+        const imgCompressorLink = `${SITE_BASE_URL}/image-compressor/image_compressor.html`;
+        const docConverterLink = `${SITE_BASE_URL}/Doc-Converter/public/doc-converter.html`;
+        const videoCompressorLink = `${SITE_BASE_URL}/video-compressor/video-compressor.html`;
+        const whatIsScrapestackLink = `${SITE_BASE_URL}/scrapestack-alternative/what-is-scrapestack.html`;
+        const howToScrapeLink = `${SITE_BASE_URL}/scrapestack-alternative/how-to-scrape-a-website.html`;
+        const apiDetailsLink = `${SITE_BASE_URL}/scrapestack-alternative/scrapestack-api-details.html`;
         
         return `
             <nav class="navbar">
                 <div class="nav-container">
                     <div class="nav-logo">
-                        <a href="${homeLink}" target="_blank" rel="noopener noreferrer">
+                        <a href="${homeLink}">
                             <img src="${this.basePath}images/logo.png" alt="ScrapeStack Logo" class="logo-img" onerror="this.style.display='none'">
                         </a>
                     </div>
                     <div class="nav-menu" id="navMenu">
                         <ul class="nav-links">
-                            <li><a href="${homeLink}" target="_blank" rel="noopener noreferrer" class="nav-link ${this.currentPage === 'home' ? 'active' : ''}">Home</a></li>
-                            <li><a href="${imgCompressorLink}" target="_blank" rel="noopener noreferrer" class="nav-link ${this.currentPage === 'image-compressor' ? 'active' : ''}">Image Compressor</a></li>
-                            <li><a href="${docConverterLink}" target="_blank" rel="noopener noreferrer" class="nav-link ${this.currentPage === 'doc-converter' ? 'active' : ''}">Doc Converter</a></li>
-                            <li><a href="${videoCompressorLink}" target="_blank" rel="noopener noreferrer" class="nav-link ${this.currentPage === 'video-compressor' ? 'active' : ''}">Video Compressor</a></li>
-                            <li><a href="${whatIsScrapestackLink}" target="_blank" rel="noopener noreferrer" class="nav-link ${this.currentPage === 'what-is-scrapestack' ? 'active' : ''}">What is ScrapeStack?</a></li>
-                            <li><a href="${howToScrapeLink}" target="_blank" rel="noopener noreferrer" class="nav-link ${this.currentPage === 'how-to-scrape' ? 'active' : ''}">How to Scrape</a></li>
-                            <li><a href="${apiDetailsLink}" target="_blank" rel="noopener noreferrer" class="nav-link ${this.currentPage === 'api-details' ? 'active' : ''}">API Details</a></li>
+                            <li><a href="${homeLink}" class="nav-link ${this.currentPage === 'home' ? 'active' : ''}">Home</a></li>
+                            <li><a href="${imgCompressorLink}" class="nav-link ${this.currentPage === 'image-compressor' ? 'active' : ''}">Image Compressor</a></li>
+                            <li><a href="${docConverterLink}" class="nav-link ${this.currentPage === 'doc-converter' ? 'active' : ''}">Doc Converter</a></li>
+                            <li><a href="${videoCompressorLink}" class="nav-link ${this.currentPage === 'video-compressor' ? 'active' : ''}">Video Compressor</a></li>
+                            <li><a href="${whatIsScrapestackLink}" class="nav-link ${this.currentPage === 'what-is-scrapestack' ? 'active' : ''}">What is ScrapeStack?</a></li>
+                            <li><a href="${howToScrapeLink}" class="nav-link ${this.currentPage === 'how-to-scrape' ? 'active' : ''}">How to Scrape</a></li>
+                            <li><a href="${apiDetailsLink}" class="nav-link ${this.currentPage === 'api-details' ? 'active' : ''}">API Details</a></li>
                         </ul>
                     </div>
                     <button class="nav-toggle" id="navToggle" aria-label="Toggle navigation menu">
